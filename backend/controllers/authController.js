@@ -8,6 +8,15 @@ const generateToken = (userId) => {
   });
 };
 
+const sendTokenCookie = (res, token) => {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+};
+
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -33,13 +42,13 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     });
-
+    const token = generateToken(user._id);
+    sendTokenCookie(res, token);
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       preferences: user.preferences,
-      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -65,17 +74,32 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
+    const token = generateToken(user._id);
+    sendTokenCookie(res, token);
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
       preferences: user.preferences,
-      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+const logoutUser = (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};
 
-module.exports = { registerUser, loginUser };
+const getMe = async (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    preferences: req.user.preferences,
+  });
+};
+module.exports = { registerUser, loginUser, logoutUser, getMe };

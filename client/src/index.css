@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap");
+
+@theme {
+  --color-ink: #12141c;
+  --color-surface: #171a24;
+  --color-border: #242838;
+  --color-muted: #75798a;
+  --color-dim: #565a6b;
+  --color-text: #ededed;
+  --color-gold: #d4a94b;
+  --color-sage: #6fa787;
+  --color-rust: #c4644b;
+  --color-slate: #7c9cbf;
+
+  --font-serif: "Fraunces", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+body {
+  background-color: #12141c;
+  font-family: "IBM Plex Mono", monospace;
+}

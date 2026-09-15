@@ -7,11 +7,13 @@ const {
   updateTransaction,
   deleteTransaction,
   getSummary,
+  getChartData,
 } = require("../controllers/transactionController");
 
 router.post("/", protect, addTransaction);
 router.get("/", protect, getTransactions);
 router.get("/summary", protect, getSummary);
+router.get("/chart-data", protect, getChartData);
 router.put("/:id", protect, updateTransaction);
 router.delete("/:id", protect, deleteTransaction);
 

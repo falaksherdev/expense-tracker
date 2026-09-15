@@ -177,10 +177,111 @@ function getDateRange(period, customStart, customEnd) {
 
   return { start, end };
 }
+const getChartData = async (req, res) => {
+  try {
+    const { period, startDate, endDate } = req.query;
+    const { start, end } = getDateRange(period, startDate, endDate);
+
+    const transactions = await Transaction.find({
+      userId: req.user._id,
+      date: { $gte: start, $lte: end },
+    });
+
+    const categoryMap = {};
+    transactions.forEach((t) => {
+      if (t.type === "expense") {
+        categoryMap[t.category] = (categoryMap[t.category] || 0) + t.amount;
+      }
+    });
+    const categoryBreakdown = Object.entries(categoryMap).map(
+      ([name, value]) => ({
+        name,
+        value,
+      }),
+    );
+
+    const trend = await getTrendData(req.user._id, period);
+
+    res.status(200).json({ categoryBreakdown, trend });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+async function getTrendData(userId, period) {
+  const now = new Date();
+  const buckets = [];
+
+  if (period === "weekly") {
+    for (let i = 6; i >= 0; i--) {
+      const day = new Date(now);
+      day.setDate(now.getDate() - i);
+      const dayStart = new Date(day.setHours(0, 0, 0, 0));
+      const dayEnd = new Date(day.setHours(23, 59, 59, 999));
+      buckets.push({
+        label: dayStart.toLocaleDateString("en-PK", { weekday: "short" }),
+        start: dayStart,
+        end: dayEnd,
+      });
+    }
+  } else if (period === "yearly") {
+    for (let m = 0; m <= now.getMonth(); m++) {
+      const monthStart = new Date(now.getFullYear(), m, 1);
+      const monthEnd = new Date(now.getFullYear(), m + 1, 0, 23, 59, 59);
+      buckets.push({
+        label: monthStart.toLocaleDateString("en-PK", { month: "short" }),
+        start: monthStart,
+        end: monthEnd,
+      });
+    }
+  } else {
+    for (let i = 5; i >= 0; i--) {
+      const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthStart = new Date(
+        monthDate.getFullYear(),
+        monthDate.getMonth(),
+        1,
+      );
+      const monthEnd = new Date(
+        monthDate.getFullYear(),
+        monthDate.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+      );
+      buckets.push({
+        label: monthStart.toLocaleDateString("en-PK", { month: "short" }),
+        start: monthStart,
+        end: monthEnd,
+      });
+    }
+  }
+
+  const results = [];
+  for (const bucket of buckets) {
+    const txns = await Transaction.find({
+      userId,
+      date: { $gte: bucket.start, $lte: bucket.end },
+    });
+
+    let income = 0,
+      outgoing = 0;
+    txns.forEach((t) => {
+      if (t.type === "income") income += t.amount;
+      if (["expense", "investment", "lent"].includes(t.type))
+        outgoing += t.amount;
+    });
+
+    results.push({ label: bucket.label, income, outgoing });
+  }
+
+  return results;
+}
 module.exports = {
   addTransaction,
   getTransactions,
   updateTransaction,
   deleteTransaction,
   getSummary,
+  getChartData,
 };
