@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
       committee: { type: Boolean, default: false },
       lending: { type: Boolean, default: false },
       investments: { type: Boolean, default: false },
+      onboarded: { type: Boolean, default: false },
     },
   },
   { timestamps: true },

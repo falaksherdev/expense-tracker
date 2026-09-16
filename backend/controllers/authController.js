@@ -102,4 +102,32 @@ const getMe = async (req, res) => {
     preferences: req.user.preferences,
   });
 };
-module.exports = { registerUser, loginUser, logoutUser, getMe };
+const updatePreferences = async (req, res) => {
+  try {
+    const { committee, lending, investments } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        preferences: {
+          committee: Boolean(committee),
+          lending: Boolean(lending),
+          investments: Boolean(investments),
+          onboarded: true,
+        },
+      },
+      { new: true, runValidators: true },
+    ).select("-password");
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getMe,
+  updatePreferences,
+};

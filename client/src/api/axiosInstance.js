@@ -8,9 +8,12 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const isAuthCheck = error.config?.url?.includes("/auth/me");
+    const publicPaths = ["/", "/login", "/register"];
+
+    if (error.response?.status === 401 && !isAuthCheck) {
       localStorage.removeItem("user");
-      if (window.location.pathname !== "/login") {
+      if (!publicPaths.includes(window.location.pathname)) {
         window.location.href = "/login";
       }
     }

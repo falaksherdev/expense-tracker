@@ -7,6 +7,7 @@ import TransactionForm from "../components/TransactionForm";
 import Loader from "../components/Loader";
 import AppLayout from "../components/AppLayout";
 import DashboardCharts from "../components/DashboardCharts";
+import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
   const [period, setPeriod] = useState("monthly");
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const { user } = useAuth();
 
   const fetchSummary = useCallback(async () => {
     if (period === "custom" && (!customRange.startDate || !customRange.endDate))
@@ -73,6 +75,12 @@ export default function Dashboard() {
     fetchSummary();
     fetchTransactions();
   };
+
+  const prefs = user?.preferences || {};
+  const showInvestmentRow =
+    prefs.committee || prefs.investments || summary?.investment > 0;
+  const showLentRow = prefs.lending || summary?.lent > 0;
+  const hasBreakdown = showInvestmentRow || showLentRow;
   return (
     <AppLayout>
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -88,7 +96,7 @@ export default function Dashboard() {
             onClick={() => setShowForm(true)}
             className="bg-gold text-ink text-sm font-semibold px-4 py-2 rounded-lg hover:bg-gold/90 transition-colors"
           >
-            + Add
+            + Add transaction
           </button>
         </div>
 
@@ -116,17 +124,25 @@ export default function Dashboard() {
               />
               <SummaryCard
                 label={
-                  <button
-                    onClick={() => setExpanded((e) => !e)}
-                    className="flex items-center gap-1.5 cursor-pointer"
-                  >
-                    Sent out{" "}
-                    <span className="text-dim">{expanded ? "−" : "+"}</span>
-                  </button>
+                  hasBreakdown ? (
+                    <button
+                      onClick={() => setExpanded((e) => !e)}
+                      className="flex items-center gap-1.5 cursor-pointer"
+                    >
+                      Sent out{" "}
+                      <span className="text-dim">{expanded ? "−" : "+"}</span>
+                    </button>
+                  ) : (
+                    "Sent out"
+                  )
                 }
                 value={`− Rs ${fmt(summary.outgoing)}`}
                 valueColor="text-rust"
-                sub="tap to see breakdown"
+                sub={
+                  hasBreakdown
+                    ? "tap to see breakdown"
+                    : "your expenses this period"
+                }
               />
               <SummaryCard
                 label="Savings rate"
@@ -136,7 +152,7 @@ export default function Dashboard() {
               />
             </div>
 
-            {expanded && (
+            {hasBreakdown && expanded && (
               <div className="bg-surface border border-border rounded-b-lg px-5 py-4 mb-6 -mt-1">
                 <BreakdownRow
                   label="Spent (won't come back)"
@@ -146,23 +162,27 @@ export default function Dashboard() {
                   total={summary.outgoing}
                   fmt={fmt}
                 />
-                <BreakdownRow
-                  label="Kameti + investment"
-                  value={summary.investment}
-                  color="bg-gold"
-                  textColor="text-gold"
-                  total={summary.outgoing}
-                  fmt={fmt}
-                />
-                <BreakdownRow
-                  label="Lent out"
-                  value={summary.lent}
-                  color="bg-slate"
-                  textColor="text-slate"
-                  total={summary.outgoing}
-                  fmt={fmt}
-                  last
-                />
+                {showInvestmentRow && (
+                  <BreakdownRow
+                    label="Kameti + investment"
+                    value={summary.investment}
+                    color="bg-gold"
+                    textColor="text-gold"
+                    total={summary.outgoing}
+                    fmt={fmt}
+                  />
+                )}
+                {showLentRow && (
+                  <BreakdownRow
+                    label="Lent out"
+                    value={summary.lent}
+                    color="bg-slate"
+                    textColor="text-slate"
+                    total={summary.outgoing}
+                    fmt={fmt}
+                    last
+                  />
+                )}
               </div>
             )}
             <DashboardCharts period={period} customRange={customRange} />

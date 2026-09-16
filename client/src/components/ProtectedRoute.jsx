@@ -12,6 +12,9 @@ export default function ProtectedRoute({ children }) {
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+  if (!user.preferences?.onboarded && location.pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" replace />;
+  }
 
   return children;
 }

@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosInstance";
+import { useAuth } from "../context/AuthContext";
 import { DEFAULT_CATEGORIES, TYPE_LABELS } from "../constants/categories";
 import Calendar from "./Calendar";
 import CategoryDropdown from "./CategoryDropdown";
-
-const TYPES = ["expense", "income", "investment", "lent"];
 
 export default function TransactionForm({
   onClose,
   onSuccess,
   existingTransaction,
 }) {
+  const { user } = useAuth();
   const isEditMode = Boolean(existingTransaction);
+
+  const prefs = user?.preferences || {};
+  const availableTypes = ["expense", "income"];
+  if (prefs.committee || prefs.investments) availableTypes.push("investment");
+  if (prefs.lending) availableTypes.push("lent");
+  if (
+    existingTransaction &&
+    !availableTypes.includes(existingTransaction.type)
+  ) {
+    availableTypes.push(existingTransaction.type);
+  }
 
   const [type, setType] = useState(existingTransaction?.type || "expense");
   const [category, setCategory] = useState(existingTransaction?.category || "");
@@ -60,7 +71,30 @@ export default function TransactionForm({
     setShowAddCategory(false);
   }, [type]);
 
-  const defaultOptionsForType = DEFAULT_CATEGORIES[type] || [];
+  let defaultOptionsForType = DEFAULT_CATEGORIES[type] || [];
+
+  if (type === "investment") {
+    if (prefs.committee && !prefs.investments) {
+      defaultOptionsForType = defaultOptionsForType.filter(
+        (c) => c === "Committee",
+      );
+    } else if (!prefs.committee && prefs.investments) {
+      defaultOptionsForType = defaultOptionsForType.filter(
+        (c) => c !== "Committee",
+      );
+    }
+
+    if (
+      existingTransaction?.category &&
+      !defaultOptionsForType.includes(existingTransaction.category)
+    ) {
+      defaultOptionsForType = [
+        ...defaultOptionsForType,
+        existingTransaction.category,
+      ];
+    }
+  }
+
   const customOptionsForType = customCategories
     .filter((c) => c.type === type)
     .map((c) => c.name);
@@ -153,8 +187,13 @@ export default function TransactionForm({
             <label className="block text-muted text-xs mb-2 tracking-wide">
               Type
             </label>
-            <div className="grid grid-cols-4 gap-1.5">
-              {TYPES.map((t) => (
+            <div
+              className="grid gap-1.5"
+              style={{
+                gridTemplateColumns: `repeat(${availableTypes.length}, minmax(0, 1fr))`,
+              }}
+            >
+              {availableTypes.map((t) => (
                 <button
                   key={t}
                   type="button"
@@ -170,6 +209,7 @@ export default function TransactionForm({
               ))}
             </div>
           </div>
+
           <div className="mb-4">
             <label className="block text-muted text-xs mb-2 tracking-wide">
               Category
