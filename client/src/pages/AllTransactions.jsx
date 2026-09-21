@@ -9,10 +9,14 @@ import {
 } from "../constants/categories";
 import AppLayout from "../components/AppLayout";
 import TransactionForm from "../components/TransactionForm";
+import { useCurrency } from "../hooks/useCurrency";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const TYPE_FILTERS = ["all", "income", "expense", "investment", "lent"];
 
 export default function AllTransactions() {
+  const { fmtWithSymbol } = useCurrency();
+
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -20,7 +24,7 @@ export default function AllTransactions() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [deletingId, setDeletingId] = useState(null);
   const [editingTransaction, setEditingTransaction] = useState(null);
-
+  const [confirmingTransaction, setConfirmingTransaction] = useState(null);
   const fetchTransactions = useCallback(async () => {
     setLoading(true);
     try {
@@ -49,11 +53,6 @@ export default function AllTransactions() {
     }
   };
 
-  const fmt = (n) =>
-    new Intl.NumberFormat("en-PK", { maximumFractionDigits: 0 }).format(
-      Math.abs(n),
-    );
-
   const allCategoryOptions = [
     ...new Set(Object.values(DEFAULT_CATEGORIES).flat()),
   ];
@@ -80,13 +79,31 @@ export default function AllTransactions() {
     setEditingTransaction(null);
   };
 
+  const handleDeleteClick = (transaction) => {
+    setConfirmingTransaction(transaction);
+  };
+
+  const handleConfirmDelete = async () => {
+    const id = confirmingTransaction._id;
+    setDeletingId(id);
+    try {
+      await axiosInstance.delete(`/transactions/${id}`);
+      setTransactions((prev) => prev.filter((t) => t._id !== id));
+      setConfirmingTransaction(null);
+    } catch (err) {
+      setError("Could not delete transaction");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <AppLayout>
       <div className="max-w-3xl mx-auto px-6 py-8">
         <h1 className="font-serif text-2xl text-text mb-6">All transactions</h1>
 
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5 flex-wrap">
             {TYPE_FILTERS.map((t) => (
               <button
                 key={t}
@@ -110,6 +127,7 @@ export default function AllTransactions() {
                 setCategoryFilter(val === "All categories" ? "" : val)
               }
               onAddNew={() => {}}
+              allowAddNew={false}
             />
           </div>
         </div>
@@ -135,47 +153,81 @@ export default function AllTransactions() {
                 </div>
                 <div className="bg-surface border border-border rounded-lg divide-y divide-border/60">
                   {items.map((t) => (
-                    <div
-                      key={t._id}
-                      className="flex items-center gap-4 px-4 py-3 group"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="text-text text-sm truncate">
-                          {t.category}
+                    <div key={t._id} className="px-4 py-3 group">
+                      <div className="flex items-start justify-between gap-2 mb-1.5 sm:mb-0">
+                        <div className="flex-1 min-w-0">
+                          <div className="text-text text-sm font-medium truncate">
+                            {t.category}
+                          </div>
+                          <div className="text-dim text-xs truncate">
+                            {t.personName ? t.personName : t.description || "—"}
+                          </div>
                         </div>
-                        <div className="text-dim text-xs truncate">
-                          {t.personName ? t.personName : t.description || "—"}
+
+                        <div className="hidden sm:flex items-center gap-4 shrink-0">
+                          <span
+                            className="text-[10px] px-2 py-0.5 rounded-full border shrink-0"
+                            style={{
+                              color: TYPE_COLORS[t.type],
+                              borderColor: TYPE_COLORS[t.type],
+                            }}
+                          >
+                            {TYPE_LABELS[t.type]}
+                          </span>
+                          <div
+                            className={`w-24 text-right font-mono text-sm shrink-0 ${t.type === "income" ? "text-sage" : "text-text"}`}
+                          >
+                            {t.type === "income" ? "+" : "−"}{" "}
+                            {fmtWithSymbol(t.amount)}
+                          </div>
+                          <button
+                            onClick={() => setEditingTransaction(t)}
+                            className="text-dim hover:text-gold text-xs opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(t)}
+                            className="text-dim hover:text-rust text-xs opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                          >
+                            Delete
+                          </button>
                         </div>
                       </div>
 
-                      <span
-                        className="text-[10px] px-2 py-0.5 rounded-full border shrink-0"
-                        style={{
-                          color: TYPE_COLORS[t.type],
-                          borderColor: TYPE_COLORS[t.type],
-                        }}
-                      >
-                        {TYPE_LABELS[t.type]}
-                      </span>
-
-                      <div
-                        className={`w-24 text-right font-mono text-sm shrink-0 ${t.type === "income" ? "text-sage" : "text-text"}`}
-                      >
-                        {t.type === "income" ? "+" : "−"} Rs {fmt(t.amount)}
+                      <div className="flex sm:hidden items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="text-[10px] px-2 py-0.5 rounded-full border shrink-0"
+                            style={{
+                              color: TYPE_COLORS[t.type],
+                              borderColor: TYPE_COLORS[t.type],
+                            }}
+                          >
+                            {TYPE_LABELS[t.type]}
+                          </span>
+                          <div
+                            className={`font-mono text-xs ${t.type === "income" ? "text-sage" : "text-text"}`}
+                          >
+                            {t.type === "income" ? "+" : "−"}{" "}
+                            {fmtWithSymbol(t.amount)}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setEditingTransaction(t)}
+                            className="text-dim text-xs"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(t)}
+                            className="text-dim text-xs"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        onClick={() => setEditingTransaction(t)}
-                        className="text-dim hover:text-gold text-xs opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(t._id)}
-                        disabled={deletingId === t._id}
-                        className="text-dim hover:text-rust text-xs opacity-0 group-hover:opacity-100 transition-opacity shrink-0 disabled:opacity-50"
-                      >
-                        {deletingId === t._id ? "..." : "Delete"}
-                      </button>
                     </div>
                   ))}
                 </div>
@@ -190,6 +242,15 @@ export default function AllTransactions() {
           existingTransaction={editingTransaction}
           onClose={() => setEditingTransaction(null)}
           onSuccess={handleUpdated}
+        />
+      )}
+      {confirmingTransaction && (
+        <ConfirmDialog
+          title="Delete this transaction?"
+          message={`This will permanently delete "${confirmingTransaction.category}" (${confirmingTransaction.amount}). This can't be undone.`}
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setConfirmingTransaction(null)}
+          isLoading={deletingId === confirmingTransaction._id}
         />
       )}
     </AppLayout>

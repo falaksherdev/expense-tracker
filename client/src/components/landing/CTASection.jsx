@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 export default function CTASection() {
   return (
-    <section className="py-20 bg-surface border-t border-border text-center">
-      <div className="max-w-xl mx-auto px-6">
-        <h2 className="font-serif text-3xl text-text mb-6">
+    <section className="py-12 sm:py-16 md:py-20 bg-surface border-t border-border text-center">
+      <div className="max-w-xl mx-auto px-4 sm:px-6">
+        <h2 className="font-serif text-2xl sm:text-3xl text-text mb-5 sm:mb-6">
           Start tracking today
         </h2>
         <Link
           to="/register"
-          className="inline-block bg-gold text-ink font-semibold text-sm px-8 py-3.5 rounded-lg hover:bg-gold/90 transition-colors"
+          className="inline-block bg-gold text-ink font-semibold text-sm px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg hover:bg-gold/90 transition-colors"
         >
           Create your free account
         </Link>

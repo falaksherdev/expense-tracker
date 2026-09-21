@@ -9,6 +9,8 @@ import AllTransactions from "./pages/AllTransactions";
 import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
 import LandingPage from "./pages/LandingPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const { loading } = useAuth();
@@ -54,6 +56,8 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="*" element={<Login />} />
     </Routes>
   );

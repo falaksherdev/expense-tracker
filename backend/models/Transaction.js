@@ -24,6 +24,7 @@ const transactionSchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
+      maxlength: [500, "Description cannot exceed 500 characters"],
       default: "",
     },
     personName: {

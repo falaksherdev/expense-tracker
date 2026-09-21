@@ -2,7 +2,7 @@ const FEATURES = [
   {
     title: "Real financial logic",
     description:
-      'Kameti, lending, and donations tracked the way they actually work — not forced into "expense".',
+      'Rotating savings groups, lending, and donations tracked the way they actually work — not forced into "expense".',
   },
   {
     title: "Custom categories",
@@ -19,20 +19,29 @@ const FEATURES = [
     description:
       "Only see the features you actually use — nothing else gets in the way.",
   },
+  {
+    title: "Any currency",
+    description: "PKR, USD, EUR, and more — set once in your profile.",
+  },
+  {
+    title: "Secure by design",
+    description:
+      "httpOnly cookies and server-side verification on every request.",
+  },
 ];
 
 export default function Features() {
   return (
-    <section className="py-20">
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="font-serif text-2xl md:text-3xl text-text text-center mb-12">
+    <section className="py-12 sm:py-16 md:py-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text text-center mb-8 sm:mb-10 md:mb-12">
           Everything you need, nothing you don't
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="bg-surface border border-border rounded-xl p-6"
+              className="bg-surface border border-border rounded-xl p-5 sm:p-6"
             >
               <h3 className="text-text text-base font-medium mb-2">
                 {f.title}

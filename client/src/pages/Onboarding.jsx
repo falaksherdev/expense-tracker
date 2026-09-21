@@ -31,6 +31,7 @@ export default function Onboarding() {
             initialPreferences={user?.preferences}
             onSaved={handleSaved}
             submitLabel="Continue to dashboard"
+            showSteps={true}
           />
         </div>
       </div>

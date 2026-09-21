@@ -6,11 +6,18 @@ const STEPS = [
   },
   {
     number: 2,
-    title: "Add your transactions",
-    description: "Income, expenses, kameti, lending — whatever applies to you.",
+    title: "Set your currency and preferences",
+    description:
+      "Choose your currency, then pick the features that matter to you.",
   },
   {
     number: 3,
+    title: "Add your transactions",
+    description:
+      "Income, expenses, savings groups, lending — whatever applies to you.",
+  },
+  {
+    number: 4,
     title: "See the real picture",
     description: "A dashboard that actually reflects where your money goes.",
   },
@@ -20,16 +27,16 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-20 bg-surface border-y border-border"
+      className="py-12 sm:py-16 md:py-20 bg-surface border-y border-border"
     >
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="font-serif text-2xl md:text-3xl text-text text-center mb-12">
-          Three steps to clarity
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text text-center mb-8 sm:mb-10 md:mb-12">
+          Four steps to clarity
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8">
           {STEPS.map((s) => (
             <div key={s.number}>
-              <div className="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-semibold text-sm mb-4">
+              <div className="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-semibold text-sm mb-3 sm:mb-4">
                 {s.number}
               </div>
               <h3 className="text-text text-base font-medium mb-1.5">

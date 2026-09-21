@@ -35,35 +35,35 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-ink flex items-center justify-center px-4 py-8 relative overflow-hidden">
       {/* Subtle background accent glow */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-slate/5 rounded-full blur-3xl" />
 
       <div className="w-full max-w-md relative">
-        <div className="text-center mb-8">
-          <div className="text-muted text-sm tracking-wide mb-2">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="text-muted text-xs sm:text-sm tracking-wide mb-2">
             Expense Tracker
           </div>
-          <h1 className="font-serif text-3xl text-text font-semibold">
+          <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Welcome back
           </h1>
-          <p className="text-dim text-sm mt-2">
+          <p className="text-dim text-xs sm:text-sm mt-2">
             Log in to see where your money went
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-surface border border-border rounded-2xl p-8 shadow-2xl shadow-black/20"
+          className="bg-surface border border-border rounded-2xl p-5 sm:p-8 shadow-2xl shadow-black/20"
         >
           {error && (
-            <div className="bg-rust/10 border border-rust/30 text-rust text-sm rounded-lg px-4 py-3 mb-5">
+            <div className="bg-rust/10 border border-rust/30 text-rust text-xs sm:text-sm rounded-lg px-4 py-3 mb-4 sm:mb-5">
               {error}
             </div>
           )}
 
-          <div className="mb-5">
+          <div className="mb-4 sm:mb-5">
             <label className="uppercase block text-muted text-xs mb-2 tracking-wide">
               Email
             </label>
@@ -80,7 +80,7 @@ export default function Login() {
             />
           </div>
 
-          <div className="mb-6">
+          <div className="mb-5 sm:mb-6">
             <label className="uppercase block text-muted text-xs mb-2 tracking-wide">
               Password
             </label>
@@ -96,6 +96,14 @@ export default function Login() {
                          transition-colors"
             />
           </div>
+          <div className="flex justify-end mt-2 mb-6">
+            <Link
+              to="/forgot-password"
+              className="text-gold text-xs hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
 
           <button
             type="submit"
@@ -107,7 +115,7 @@ export default function Login() {
             {isSubmitting ? "Logging in..." : "Log in"}
           </button>
 
-          <p className="text-center text-dim text-sm mt-6">
+          <p className="text-center text-dim text-xs sm:text-sm mt-5 sm:mt-6">
             Don't have an account?{" "}
             <Link to="/register" className="text-gold hover:underline">
               Register

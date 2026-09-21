@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import axiosInstance from "../api/axiosInstance";
 import Loader from "./Loader";
+import { useCurrency } from "../hooks/useCurrency";
 
 const PIE_COLORS = [
   "#D4A94B",
@@ -23,12 +24,9 @@ const PIE_COLORS = [
   "#75798A",
 ];
 
-const fmt = (n) =>
-  new Intl.NumberFormat("en-PK", { maximumFractionDigits: 0 }).format(
-    Math.abs(n || 0),
-  );
-
 export default function DashboardCharts({ period, customRange }) {
+  const { fmtWithSymbol } = useCurrency();
+
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -127,7 +125,7 @@ export default function DashboardCharts({ period, customRange }) {
                       fontSize: 12,
                     }}
                     itemStyle={{ color: "#EDEDED" }}
-                    formatter={(v) => [`Rs ${fmt(v)}`, ""]}
+                    formatter={(v) => [fmtWithSymbol(v), ""]}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -147,7 +145,7 @@ export default function DashboardCharts({ period, customRange }) {
                     {entry.name}
                   </span>
                   <span className="text-dim font-mono shrink-0">
-                    Rs {fmt(entry.value)}
+                    {fmtWithSymbol(entry.value)}
                   </span>
                 </div>
               ))}
@@ -195,7 +193,7 @@ export default function DashboardCharts({ period, customRange }) {
                       fontSize: 12,
                     }}
                     itemStyle={{ color: "#EDEDED" }}
-                    formatter={(v) => `Rs ${fmt(v)}`}
+                    formatter={(v) => fmtWithSymbol(v)}
                   />
                   <Line
                     type="monotone"

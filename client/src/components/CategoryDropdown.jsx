@@ -5,6 +5,7 @@ export default function CategoryDropdown({
   value,
   onChange,
   onAddNew,
+  allowAddNew = true,
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -118,31 +119,33 @@ export default function CategoryDropdown({
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={() => {
-              onAddNew();
-              setOpen(false);
-              setSearch("");
-            }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gold border-t border-border
-                       hover:bg-gold/5 transition-colors flex items-center gap-1.5"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {allowAddNew && (
+            <button
+              type="button"
+              onClick={() => {
+                onAddNew();
+                setOpen(false);
+                setSearch("");
+              }}
+              className="w-full text-left px-4 py-2.5 text-sm text-gold border-t border-border
+                         hover:bg-gold/5 transition-colors flex items-center gap-1.5"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Add custom category
-          </button>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add custom category
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -4,12 +4,15 @@ import { useAuth } from "../context/AuthContext";
 import { DEFAULT_CATEGORIES, TYPE_LABELS } from "../constants/categories";
 import Calendar from "./Calendar";
 import CategoryDropdown from "./CategoryDropdown";
+import { useCurrency } from "../hooks/useCurrency";
 
 export default function TransactionForm({
   onClose,
   onSuccess,
   existingTransaction,
 }) {
+  const { symbol } = useCurrency();
+
   const { user } = useAuth();
   const isEditMode = Boolean(existingTransaction);
 
@@ -169,6 +172,7 @@ export default function TransactionForm({
             {isEditMode ? "Edit transaction" : "Add transaction"}
           </h2>
           <button
+            type="button"
             onClick={onClose}
             className="text-dim hover:text-text text-xl leading-none"
           >
@@ -255,7 +259,7 @@ export default function TransactionForm({
 
           <div className="mb-4">
             <label className="block text-muted text-xs mb-2 tracking-wide">
-              Amount (Rs)
+              Amount ({symbol})
             </label>
             <input
               type="number"
@@ -320,6 +324,7 @@ export default function TransactionForm({
                     setDate(range.startDate);
                     setShowCalendar(false);
                   }}
+                  mode="single"
                 />
               </div>
             )}

@@ -15,6 +15,7 @@ export default function PeriodToggle({
   onCustomRangeChange,
 }) {
   const [showPicker, setShowPicker] = useState(false);
+  const [draftRange, setDraftRange] = useState(customRange);
   const pickerRef = useRef(null);
 
   useEffect(() => {
@@ -29,8 +30,12 @@ export default function PeriodToggle({
 
   const handlePeriodClick = (key) => {
     onChange(key);
-    if (key === "custom") setShowPicker(true);
-    else setShowPicker(false);
+    if (key === "custom") {
+      setDraftRange(customRange);
+      setShowPicker(true);
+    } else {
+      setShowPicker(false);
+    }
   };
 
   const formatDisplay = (dateStr) => {
@@ -41,7 +46,13 @@ export default function PeriodToggle({
     });
   };
 
-  const hasRange = customRange.startDate && customRange.endDate;
+  const hasDraftRange = draftRange.startDate && draftRange.endDate;
+  const hasAppliedRange = customRange.startDate && customRange.endDate;
+
+  const handleApply = () => {
+    onCustomRangeChange(draftRange);
+    setShowPicker(false);
+  };
 
   return (
     <div className="relative flex flex-wrap items-center gap-5" ref={pickerRef}>
@@ -56,7 +67,7 @@ export default function PeriodToggle({
           }`}
         >
           {p.label}
-          {p.key === "custom" && period === "custom" && hasRange && (
+          {p.key === "custom" && period === "custom" && hasAppliedRange && (
             <span className="text-dim font-mono text-xs ml-1.5">
               {formatDisplay(customRange.startDate)} –{" "}
               {formatDisplay(customRange.endDate)}
@@ -68,17 +79,18 @@ export default function PeriodToggle({
       {showPicker && (
         <div className="absolute top-full right-0 mt-3 z-20 bg-surface border border-border rounded-xl shadow-2xl shadow-black/40 p-4 w-80">
           <div className="text-muted text-xs tracking-wide mb-3">
-            {!customRange.startDate
+            {!draftRange.startDate
               ? "Select start date"
-              : !customRange.endDate
+              : !draftRange.endDate
                 ? "Select end date"
                 : "Date range selected"}
           </div>
 
           <Calendar
-            startDate={customRange.startDate}
-            endDate={customRange.endDate}
-            onSelect={onCustomRangeChange}
+            startDate={draftRange.startDate}
+            endDate={draftRange.endDate}
+            onSelect={setDraftRange}
+            mode="range"
           />
 
           <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
@@ -93,7 +105,7 @@ export default function PeriodToggle({
                   const end = new Date();
                   const start = new Date();
                   start.setDate(end.getDate() - preset.days);
-                  onCustomRangeChange({
+                  setDraftRange({
                     startDate: start.toISOString().split("T")[0],
                     endDate: end.toISOString().split("T")[0],
                   });
@@ -107,8 +119,8 @@ export default function PeriodToggle({
           </div>
 
           <button
-            onClick={() => setShowPicker(false)}
-            disabled={!hasRange}
+            onClick={handleApply}
+            disabled={!hasDraftRange}
             className="w-full bg-gold text-ink text-sm font-semibold rounded-lg py-2
                        hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >

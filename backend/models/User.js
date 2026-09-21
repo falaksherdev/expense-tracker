@@ -17,14 +17,17 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: 6,
+      minlength: 8,
     },
     preferences: {
       committee: { type: Boolean, default: false },
       lending: { type: Boolean, default: false },
       investments: { type: Boolean, default: false },
       onboarded: { type: Boolean, default: false },
+      currency: { type: String, default: "PKR" },
     },
+    resetPasswordToken: { type: String },
+    resetPasswordExpire: { type: Date },
   },
   { timestamps: true },
 );

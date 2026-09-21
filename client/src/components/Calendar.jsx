@@ -24,13 +24,17 @@ function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
 
-// Monday-first weekday index (0 = Monday ... 6 = Sunday)
 function getStartOffset(year, month) {
   const day = new Date(year, month, 1).getDay();
   return day === 0 ? 6 : day - 1;
 }
 
-export default function Calendar({ startDate, endDate, onSelect }) {
+export default function Calendar({
+  startDate,
+  endDate,
+  onSelect,
+  mode = "range",
+}) {
   const today = new Date();
   const [viewYear, setViewYear] = useState(
     startDate ? new Date(startDate).getFullYear() : today.getFullYear(),
@@ -78,9 +82,9 @@ export default function Calendar({ startDate, endDate, onSelect }) {
 
   return (
     <div className="w-full">
-      {/* Month navigation */}
       <div className="flex items-center justify-between mb-3">
         <button
+          type="button"
           onClick={goPrevMonth}
           className="w-7 h-7 flex items-center justify-center rounded-md text-muted hover:text-gold hover:bg-ink transition-colors"
         >
@@ -90,6 +94,7 @@ export default function Calendar({ startDate, endDate, onSelect }) {
           {MONTH_NAMES[viewMonth]} {viewYear}
         </div>
         <button
+          type="button"
           onClick={goNextMonth}
           className="w-7 h-7 flex items-center justify-center rounded-md text-muted hover:text-gold hover:bg-ink transition-colors"
         >
@@ -97,7 +102,6 @@ export default function Calendar({ startDate, endDate, onSelect }) {
         </button>
       </div>
 
-      {/* Day labels */}
       <div className="grid grid-cols-7 gap-1 mb-1">
         {DAY_LABELS.map((d, i) => (
           <div key={i} className="text-center text-dim text-[10px] py-1">
@@ -106,7 +110,6 @@ export default function Calendar({ startDate, endDate, onSelect }) {
         ))}
       </div>
 
-      {/* Date grid */}
       <div className="grid grid-cols-7 gap-1">
         {cells.map((day, i) => {
           if (day === null) return <div key={`empty-${i}`} />;
@@ -118,9 +121,15 @@ export default function Calendar({ startDate, endDate, onSelect }) {
           const isEnd = iso === endDate;
           const inRange =
             startDate && endDate && iso > startDate && iso < endDate;
-
+          const isSingleDayCompleteRange =
+            startDate && endDate && startDate === endDate;
+          const applyFlatRight =
+            mode === "range" && Boolean(startDate) && !isSingleDayCompleteRange;
+          const applyFlatLeft =
+            mode === "range" && Boolean(endDate) && startDate !== endDate;
           return (
             <button
+              type="button"
               key={day}
               disabled={isFuture}
               onClick={() => handleDayClick(day)}
@@ -129,8 +138,8 @@ export default function Calendar({ startDate, endDate, onSelect }) {
                 ${isFuture ? "text-dim/40 cursor-not-allowed" : "text-text hover:bg-border cursor-pointer"}
                 ${inRange ? "bg-gold/10 text-gold rounded-none" : ""}
                 ${isStart || isEnd ? "bg-gold text-ink font-semibold hover:bg-gold" : ""}
-                ${isStart && endDate ? "rounded-r-none" : ""}
-                ${isEnd && startDate !== endDate ? "rounded-l-none" : ""}
+        ${isStart && applyFlatRight ? "rounded-r-none" : ""}
+      ${isEnd && applyFlatLeft ? "rounded-l-none" : ""}
               `}
             >
               {day}
