@@ -11,12 +11,13 @@ import Settings from "./pages/Settings";
 import LandingPage from "./pages/LandingPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   const { loading } = useAuth();
 
   if (loading) {
-    return <Loader label="Checking session" />;
+    return <Loader />;
   }
 
   return (
@@ -58,6 +59,7 @@ function App() {
       />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
+      <Route path="/verify-email/:token" element={<VerifyEmail />} />
       <Route path="*" element={<Login />} />
     </Routes>
   );

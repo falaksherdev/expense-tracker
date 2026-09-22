@@ -10,6 +10,7 @@ import DashboardCharts from "../components/DashboardCharts";
 import { useAuth } from "../context/AuthContext";
 import { useCurrency } from "../hooks/useCurrency";
 import { Link } from "react-router-dom";
+import VerifyEmailBanner from "../components/VerifyEmailBanner";
 
 export default function Dashboard() {
   const { fmtWithSymbol } = useCurrency();
@@ -100,7 +101,7 @@ export default function Dashboard() {
             + Add transaction
           </button>
         </div>
-
+        <VerifyEmailBanner />
         {error && (
           <div className="bg-rust/10 border border-rust/30 text-rust text-sm rounded-lg px-4 py-3 mb-5">
             {error}

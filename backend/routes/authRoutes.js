@@ -9,6 +9,10 @@ const {
   updateCurrency,
   forgotPassword,
   resetPassword,
+  changePassword,
+  deleteAccount,
+  verifyEmail,
+  resendVerification,
 } = require("../controllers/authController");
 const protect = require("../middleware/authMiddleware");
 
@@ -20,4 +24,9 @@ router.put("/preferences", protect, updatePreferences);
 router.put("/currency", protect, updateCurrency);
 router.post("/forgot-password", forgotPassword);
 router.put("/reset-password/:token", resetPassword);
+router.put("/change-password", protect, changePassword);
+router.delete("/account", protect, deleteAccount);
+router.get("/verify-email/:token", verifyEmail);
+router.post("/resend-verification", protect, resendVerification);
+
 module.exports = router;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Logo from "../components/Logo";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -59,8 +60,9 @@ export default function Register() {
 
       <div className="w-full max-w-md relative">
         <div className="text-center mb-6 sm:mb-8">
-          <div className="text-muted text-xs sm:text-sm tracking-wide mb-2">
-            Expense Tracker
+          <div className="flex items-center justify-center gap-2 text-muted text-xs sm:text-sm tracking-wide mb-2">
+            <Logo size={20} className="text-gold" />
+            <span>Expense Tracker</span>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Create your account

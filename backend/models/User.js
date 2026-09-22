@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 8,
+      select: false,
     },
     preferences: {
       committee: { type: Boolean, default: false },
@@ -28,7 +29,11 @@ const userSchema = new mongoose.Schema(
     },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
+    isVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String },
+    emailVerificationExpire: { type: Date },
   },
+
   { timestamps: true },
 );
 

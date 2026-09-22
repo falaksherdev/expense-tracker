@@ -230,6 +230,7 @@ export default function TransactionForm({
                 <input
                   type="text"
                   autoFocus
+                  maxLength={50}
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                   placeholder="e.g. Pet Expenses"
@@ -336,6 +337,7 @@ export default function TransactionForm({
             </label>
             <input
               type="text"
+              maxLength={500}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. Grocery run"

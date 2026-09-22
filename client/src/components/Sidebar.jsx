@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import Logo from "./Logo";
 
 const NAV_ITEMS = [
   {
@@ -88,7 +89,10 @@ export default function Sidebar() {
   return (
     <>
       <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-20">
-        <div className="font-serif text-text">Expense Tracker</div>
+        <div className="flex items-center gap-2">
+          <Logo size={18} className="text-gold" />
+          <div className="font-serif text-text">Expense Tracker</div>
+        </div>
         <button
           onClick={() => setMobileOpen((o) => !o)}
           className="text-muted p-1"
@@ -133,8 +137,9 @@ export default function Sidebar() {
         `}
       >
         <div className="mb-6 px-2">
-          <div className="text-muted text-xs tracking-wide">
-            Expense Tracker
+          <div className="flex items-center gap-2 text-muted text-xs tracking-wide mb-3">
+            <Logo size={18} className="text-gold" />
+            <span>Expense Tracker</span>
           </div>
           <div className="font-serif text-lg text-text mt-0.5">
             Hi, {user?.name?.split(" ")[0]}
