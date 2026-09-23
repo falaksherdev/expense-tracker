@@ -13,9 +13,11 @@ const generateToken = (userId) => {
 };
 
 const sendTokenCookie = (res, token) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
@@ -131,8 +133,12 @@ const loginUser = async (req, res) => {
   }
 };
 const logoutUser = (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("token", "", {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully" });
@@ -383,6 +389,8 @@ const changePassword = async (req, res) => {
 };
 
 const deleteAccount = async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   try {
     const userId = req.user._id;
     await Transaction.deleteMany({ userId });
@@ -392,9 +400,10 @@ const deleteAccount = async (req, res) => {
 
     res.cookie("token", "", {
       httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       expires: new Date(0),
     });
-
     res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });

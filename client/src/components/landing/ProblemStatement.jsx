@@ -1,7 +1,7 @@
 export default function ProblemStatement() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-surface border-y border-border">
-      <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
+    <section className="py-12 sm:py-16 md:py-20 bg-surface border-y border-border ">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 text-center ">
         <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text mb-3 sm:mb-4">
           Generic trackers miss half your money
         </h2>

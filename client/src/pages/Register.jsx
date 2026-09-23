@@ -92,7 +92,7 @@ export default function Register() {
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
               required
-              placeholder="Ali Khan"
+              placeholder="Your Name"
               className="w-full bg-ink border border-border rounded-lg px-4 py-2.5 text-text text-sm
                          placeholder:text-dim focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30
                          transition-colors"
