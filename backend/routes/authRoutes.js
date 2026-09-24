@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const rateLimit = require("express-rate-limit");
+
 const {
   registerUser,
   loginUser,
@@ -14,6 +16,7 @@ const {
   verifyEmail,
   resendVerification,
 } = require("../controllers/authController");
+
 const protect = require("../middleware/authMiddleware");
 
 const authLimiter = rateLimit({
