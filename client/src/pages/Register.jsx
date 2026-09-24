@@ -9,6 +9,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSlowLoading, setIsSlowLoading] = useState(false);
 
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ export default function Register() {
     }
 
     setIsSubmitting(true);
+    const slowTimer = setTimeout(() => setIsSlowLoading(true), 4000);
+
     try {
       await register(name, email, password);
       navigate("/dashboard");
@@ -49,6 +52,8 @@ export default function Register() {
           "Something went wrong. Please try again.",
       );
     } finally {
+      clearTimeout(slowTimer);
+      setIsSlowLoading(false);
       setIsSubmitting(false);
     }
   };
@@ -144,7 +149,11 @@ export default function Register() {
                        hover:bg-gold/90 active:scale-[0.99] transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Creating account..." : "Create account"}
+            {isSlowLoading
+              ? "Waking up server, please wait..."
+              : isSubmitting
+                ? "Creating account..."
+                : "Create account"}
           </button>
 
           <p className="text-center text-dim text-xs sm:text-sm mt-5 sm:mt-6">
