@@ -35,20 +35,13 @@ const globalLimiter = rateLimit({
   message: { message: "Too many requests, please try again later" },
 });
 app.use(globalLimiter);
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: process.env.NODE_ENV === "production" ? 5 : 50,
-
-  message: { message: "Too many attempts, please try again in 15 minutes" },
-  skipSuccessfulRequests: true,
-});
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
 // Routes
-app.use("/api/auth", authLimiter, require("./routes/authRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/transactions", require("./routes/transactionRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 
