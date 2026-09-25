@@ -88,7 +88,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-20">
+      <div className="sm:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-20">
         <div className="flex items-center gap-2">
           <Logo size={18} className="text-gold" />
           <div className="font-serif text-text">Expense Tracker</div>
@@ -124,7 +124,7 @@ export default function Sidebar() {
 
       {mobileOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/60 z-30"
+          className="sm:hidden fixed inset-0 bg-black/60 z-30"
           onClick={() => setMobileOpen(false)}
         />
       )}
