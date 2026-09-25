@@ -98,7 +98,7 @@ export default function DashboardCharts({ period, customRange }) {
             No expenses in this period yet.
           </div>
         ) : (
-          <div className="flex items-center gap-5">
+          <div className="flex sm:flex-row flex-col items-center gap-5">
             <div className="w-36 h-36 shrink-0">
               <ResponsiveContainer>
                 <PieChart>
