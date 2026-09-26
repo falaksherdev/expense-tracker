@@ -131,9 +131,9 @@ export default function Sidebar() {
 
       <aside
         className={`
-          fixed md:sticky top-0 md:top-0 left-0 h-screen w-64 bg-surface border-r border-border
+          fixed sm:sticky top-0 sm:top-0 left-0 h-screen w-64 bg-surface border-r border-border
           flex flex-col p-4 z-40 transition-transform duration-200
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          ${mobileOpen ? "translate-x-0" : "-translate-x-full sm:translate-x-0"}
         `}
       >
         <div className="mb-6 px-2">
