@@ -1,3 +1,5 @@
+import { useScrollReveal } from "../../hooks/useScrollReveal";
+
 const FEATURES = [
   {
     title: "Real financial logic",
@@ -31,17 +33,27 @@ const FEATURES = [
 ];
 
 export default function Features() {
+  const [ref, isVisible] = useScrollReveal();
+
   return (
     <section className="py-12 sm:py-16 md:py-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text text-center mb-8 sm:mb-10 md:mb-12">
           Everything you need, nothing you don't
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {FEATURES.map((f) => (
+        <div
+          ref={ref}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+          {FEATURES.map((f, i) => (
             <div
               key={f.title}
-              className="bg-surface border border-border rounded-xl p-5 sm:p-6"
+              className={`bg-surface border border-border rounded-xl p-5 sm:p-6 transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: isVisible ? `${i * 100}ms` : "0ms" }}
             >
               <h3 className="text-text text-base font-medium mb-2">
                 {f.title}

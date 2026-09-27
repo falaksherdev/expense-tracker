@@ -1,3 +1,5 @@
+import { useScrollReveal } from "../../hooks/useScrollReveal";
+
 const STEPS = [
   {
     number: 1,
@@ -24,6 +26,8 @@ const STEPS = [
 ];
 
 export default function HowItWorks() {
+  const [ref, isVisible] = useScrollReveal();
+
   return (
     <section
       id="how-it-works"
@@ -33,9 +37,20 @@ export default function HowItWorks() {
         <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text text-center mb-8 sm:mb-10 md:mb-12">
           Four steps to clarity
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8">
-          {STEPS.map((s) => (
-            <div key={s.number}>
+        <div
+          ref={ref}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7 md:gap-8"
+        >
+          {STEPS.map((s, i) => (
+            <div
+              key={s.number}
+              className={`transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: isVisible ? `${i * 100}ms` : "0ms" }}
+            >
               <div className="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-semibold text-sm mb-3 sm:mb-4">
                 {s.number}
               </div>

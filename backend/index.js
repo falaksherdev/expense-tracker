@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/transactions", require("./routes/transactionRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
-
+app.use("/api/feedback", require("./routes/feedbackRoutes"));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

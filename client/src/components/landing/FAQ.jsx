@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useScrollReveal } from "../../hooks/useScrollReveal";
 
 const FAQS = [
   {
@@ -25,6 +26,7 @@ const FAQS = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
+  const [ref, isVisible] = useScrollReveal();
 
   const toggle = (i) => {
     setOpenIndex((prev) => (prev === i ? null : i));
@@ -32,7 +34,12 @@ export default function FAQ() {
 
   return (
     <section className="py-12 sm:py-16 md:py-20">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6">
+      <div
+        ref={ref}
+        className={`max-w-2xl mx-auto px-4 sm:px-6 transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
+      >
         <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-text text-center mb-8 sm:mb-10">
           Questions people ask
         </h2>

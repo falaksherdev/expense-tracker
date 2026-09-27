@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Logo from "./Logo";
+import FeedbackModal from "./FeedbackModal";
 
 const NAV_ITEMS = [
   {
@@ -73,6 +74,7 @@ export default function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -159,7 +161,29 @@ export default function Sidebar() {
             </NavLink>
           ))}
         </nav>
+        {/* Divider */}
+        <div className="border-t border-border my-2" />
 
+        {/* Feedback button */}
+        <button
+          onClick={() => setShowFeedback(true)}
+          className="w-full flex items-center gap-3 text-sm text-muted hover:text-gold hover:bg-border/50 px-3 py-2 rounded-lg transition-colors mb-2 cursor-pointer"
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            />
+          </svg>
+          <span>Send feedback</span>
+        </button>
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 text-sm text-dim bg-surface hover:bg-rust/10 hover:text-rust border border-border hover:border-rust/30 rounded-md px-3 py-2 transition-colors cursor-pointer"
@@ -180,6 +204,7 @@ export default function Sidebar() {
           <span>Log out</span>
         </button>
       </aside>
+      {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} />}
     </>
   );
 }

@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
+import { useScrollReveal } from "../../hooks/useScrollReveal";
 
 export default function CTASection() {
+  const [ref, isVisible] = useScrollReveal();
+
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-surface border-t border-border text-center">
-      <div className="max-w-xl mx-auto px-4 sm:px-6">
+      <div
+        ref={ref}
+        className={`max-w-xl mx-auto px-4 sm:px-6 transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+        }`}
+      >
         <h2 className="font-serif text-2xl sm:text-3xl text-text mb-5 sm:mb-6">
           Start tracking today
         </h2>
