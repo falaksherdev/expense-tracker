@@ -60,7 +60,7 @@ export default function PeriodToggle({
         <button
           key={p.key}
           onClick={() => handlePeriodClick(p.key)}
-          className={`text-sm pb-1.5 border-b-2 transition-colors ${
+          className={`text-sm pb-1.5 border-b-2 transition-colors cursor-pointer ${
             period === p.key
               ? "text-text border-gold"
               : "text-muted border-transparent hover:text-text"
@@ -111,7 +111,7 @@ export default function PeriodToggle({
                   });
                 }}
                 className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted
-                           hover:border-gold/40 hover:text-gold transition-colors"
+                           hover:border-gold/40 hover:text-gold transition-colors cursor-pointer"
               >
                 {preset.label}
               </button>
@@ -122,7 +122,7 @@ export default function PeriodToggle({
             onClick={handleApply}
             disabled={!hasDraftRange}
             className="w-full bg-gold text-ink text-sm font-semibold rounded-lg py-2
-                       hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                       hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed  cursor-pointer"
           >
             Apply
           </button>

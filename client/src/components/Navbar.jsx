@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { webName } from "../constants/variables";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -14,9 +15,7 @@ export default function Navbar() {
     <nav className="border-b border-border bg-surface/50 backdrop-blur-sm sticky top-0 z-10">
       <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
         <div>
-          <div className="text-muted text-xs tracking-wide">
-            Expense Tracker
-          </div>
+          <div className="text-muted text-xs tracking-wide">{webName}</div>
           <div className="font-serif text-lg text-text">
             Hi, {user?.name?.split(" ")[0]}
           </div>

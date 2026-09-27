@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo";
+import { webName } from "../../constants/variables";
 
 export default function LandingNavbar() {
   return (
@@ -8,7 +9,7 @@ export default function LandingNavbar() {
         <div className="flex items-center gap-2">
           <Logo size={20} className="text-gold" />
           <div className="font-serif text-base sm:text-lg text-text">
-            Expense Tracker
+            {webName}
           </div>
         </div>
         <div className="flex items-center gap-3 sm:gap-5 shrink-0">

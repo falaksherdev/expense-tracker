@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { webName } from "../../constants/variables";
 
 export default function Hero() {
   const currentMonth = new Date().toLocaleDateString("en-US", {
@@ -19,7 +20,7 @@ export default function Hero() {
             Track every dollar, rupee, or riyal — even the ones you lend
           </h1>
           <p className="text-dim text-sm sm:text-base leading-relaxed mb-6 sm:mb-7 max-w-md">
-            The only expense tracker that understands rotating savings groups,
+            The only {webName} that understands rotating savings groups,
             informal lending, and family support — not just generic categories.
           </p>
           <div className="flex flex-col xs:flex-row gap-3">

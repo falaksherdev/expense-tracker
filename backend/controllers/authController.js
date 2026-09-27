@@ -241,7 +241,7 @@ const forgotPassword = async (req, res) => {
                   </td>
                   <td style="vertical-align:middle;">
                     <span style="color:#75798A; font-size:12px; letter-spacing:0.05em; text-transform:uppercase;">
-                      Expense Tracker
+                     MoneyMov
                     </span>
                   </td>
                 </tr>
@@ -292,7 +292,7 @@ const forgotPassword = async (req, res) => {
           <tr>
             <td style="padding:20px 32px; background-color:#12141C; text-align:center;">
               <p style="color:#565A6B; font-size:11px; margin:0;">
-                &copy; ${new Date().getFullYear()} Expense Tracker
+                &copy; ${new Date().getFullYear()} MoneyMov
               </p>
             </td>
           </tr>
@@ -434,7 +434,7 @@ const sendVerificationEmail = async (user) => {
           <tr>
             <td style="padding:32px 32px 0 32px; text-align:center;">
               <span style="font-size:14px;">💰</span>
-              <span style="color:#75798A; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; margin-left:6px;">Expense Tracker</span>
+              <span style="color:#75798A; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; margin-left:6px;">MoneyMov</span>
             </td>
           </tr>
           <tr>
@@ -459,7 +459,7 @@ const sendVerificationEmail = async (user) => {
           </tr>
           <tr>
             <td style="padding:20px 32px; background-color:#12141C; text-align:center;">
-              <p style="color:#565A6B; font-size:11px; margin:0;">&copy; ${new Date().getFullYear()} Expense Tracker</p>
+              <p style="color:#565A6B; font-size:11px; margin:0;">&copy; ${new Date().getFullYear()} MoneyMov</p>
             </td>
           </tr>
         </table>

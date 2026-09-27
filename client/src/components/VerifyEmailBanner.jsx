@@ -36,7 +36,7 @@ export default function VerifyEmailBanner() {
           <button
             onClick={handleResend}
             disabled={isSending}
-            className="text-gold text-xs font-medium hover:underline disabled:opacity-50"
+            className="text-gold text-xs font-medium hover:underline disabled:opacity-50 cursor-pointer"
           >
             {isSending ? "Sending..." : "Resend email"}
           </button>

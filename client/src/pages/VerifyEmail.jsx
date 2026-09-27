@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import { useAuth } from "../context/AuthContext";
 import Logo from "../components/Logo";
+import { webName } from "../constants/variables";
 
 export default function VerifyEmail() {
   const { token } = useParams();
@@ -36,7 +37,7 @@ export default function VerifyEmail() {
       <div className="w-full max-w-md text-center">
         <div className="flex items-center justify-center gap-2 text-muted text-xs sm:text-sm tracking-wide mb-6">
           <Logo size={16} className="text-gold" />
-          <span>Expense Tracker</span>
+          <span>{webName}</span>
         </div>
 
         <div className="bg-surface border border-border rounded-2xl p-8">

@@ -174,7 +174,7 @@ export default function TransactionForm({
           <button
             type="button"
             onClick={onClose}
-            className="text-dim hover:text-text text-xl leading-none"
+            className="text-dim hover:text-text text-xl leading-none cursor-pointer"
           >
             ×
           </button>
@@ -202,7 +202,7 @@ export default function TransactionForm({
                   key={t}
                   type="button"
                   onClick={() => setType(t)}
-                  className={`text-xs py-2 rounded-lg border transition-colors ${
+                  className={`text-xs py-2 rounded-lg border transition-colors cursor-pointer ${
                     type === t
                       ? "bg-gold text-ink border-gold font-semibold"
                       : "bg-ink text-muted border-border hover:border-gold/40"
@@ -351,7 +351,7 @@ export default function TransactionForm({
             disabled={isSubmitting}
             className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5
                        hover:bg-gold/90 active:scale-[0.99] transition-all
-                       disabled:opacity-50 disabled:cursor-not-allowed"
+                       disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isSubmitting
               ? isEditMode

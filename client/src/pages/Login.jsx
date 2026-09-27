@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Logo from "../components/Logo";
+import { webName } from "../constants/variables";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -45,7 +46,7 @@ export default function Login() {
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-2 text-muted text-xs sm:text-sm tracking-wide mb-2">
             <Logo size={20} className="text-gold" />
-            <span>Expense Tracker</span>
+            <span>{webName}</span>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Welcome back

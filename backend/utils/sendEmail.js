@@ -11,7 +11,7 @@ const sendEmail = async ({ to, subject, html }) => {
   });
 
   await transporter.sendMail({
-    from: `"Expense Tracker" <${process.env.SMTP_FROM}>`,
+    from: `"MoneyMov" <${process.env.SMTP_FROM}>`,
     to,
     subject,
     html,

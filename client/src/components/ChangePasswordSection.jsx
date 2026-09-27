@@ -84,7 +84,7 @@ function ChangePasswordSection() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5 hover:bg-gold/90 disabled:opacity-50"
+          className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5 hover:bg-gold/90 disabled:opacity-50 cursor-pointer"
         >
           {isSubmitting ? "Updating..." : "Update password"}
         </button>

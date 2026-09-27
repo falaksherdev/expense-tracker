@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import Logo from "./Logo";
 import FeedbackModal from "./FeedbackModal";
+import { webName } from "../constants/variables";
 
 const NAV_ITEMS = [
   {
@@ -93,7 +94,7 @@ export default function Sidebar() {
       <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-20">
         <div className="flex items-center gap-2">
           <Logo size={18} className="text-gold" />
-          <div className="font-serif text-text">Expense Tracker</div>
+          <div className="font-serif text-text">{webName}</div>
         </div>
         <button
           onClick={() => setMobileOpen((o) => !o)}
@@ -141,7 +142,7 @@ export default function Sidebar() {
         <div className="mb-6 px-2">
           <div className="flex items-center gap-2 text-muted text-xs tracking-wide mb-3">
             <Logo size={18} className="text-gold" />
-            <span>Expense Tracker</span>
+            <span>{webName}</span>
           </div>
           <div className="font-serif text-lg text-text mt-0.5">
             Hi, {user?.name?.split(" ")[0]}

@@ -128,7 +128,7 @@ export default function CategoryDropdown({
                 setSearch("");
               }}
               className="w-full text-left px-4 py-2.5 text-sm text-gold border-t border-border
-                         hover:bg-gold/5 transition-colors flex items-center gap-1.5"
+                         hover:bg-gold/5 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <svg
                 className="w-4 h-4"

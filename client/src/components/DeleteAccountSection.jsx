@@ -38,7 +38,7 @@ export default function DeleteAccountSection() {
         <button
           type="button"
           onClick={() => setShowConfirm(true)}
-          className="text-rust text-sm font-medium border border-rust/40 rounded-lg px-4 py-2 hover:bg-rust/10 transition-colors"
+          className="text-rust text-sm font-medium border border-rust/40 rounded-lg px-4 py-2 hover:bg-rust/10 transition-colors  cursor-pointer"
         >
           Delete my account
         </button>
@@ -67,7 +67,7 @@ export default function DeleteAccountSection() {
                 setConfirmText("");
                 setError("");
               }}
-              className="flex-1 border border-border text-text text-sm rounded-lg py-2.5 hover:border-gold/40 transition-colors"
+              className="flex-1 border border-border text-text text-sm rounded-lg py-2.5 hover:border-gold/40 transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -76,7 +76,7 @@ export default function DeleteAccountSection() {
               onClick={handleDelete}
               disabled={confirmText !== "DELETE" || isDeleting}
               className="flex-1 bg-rust text-white text-sm font-semibold rounded-lg py-2.5
-                         hover:bg-rust/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                         hover:bg-rust/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
               {isDeleting ? "Deleting..." : "Permanently delete"}
             </button>

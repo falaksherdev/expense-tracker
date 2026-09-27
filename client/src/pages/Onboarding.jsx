@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PreferencesForm from "../components/PreferencesForm";
+import { webName } from "../constants/variables";
 
 export default function Onboarding() {
   const { user, setUser } = useAuth();
@@ -15,9 +16,7 @@ export default function Onboarding() {
     <div className="min-h-screen bg-ink flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="text-muted text-sm tracking-wide mb-2">
-            Expense Tracker
-          </div>
+          <div className="text-muted text-sm tracking-wide mb-2">{webName}</div>
           <h1 className="font-serif text-2xl text-text font-semibold">
             Welcome, {user?.name?.split(" ")[0]}
           </h1>

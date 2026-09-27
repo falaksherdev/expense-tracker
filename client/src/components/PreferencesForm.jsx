@@ -125,7 +125,7 @@ export default function PreferencesForm({
           <button
             type="button"
             onClick={() => setStep(2)}
-            className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5 hover:bg-gold/90 transition-all"
+            className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5 hover:bg-gold/90 transition-all  cursor-pointer"
           >
             Continue
           </button>
@@ -157,7 +157,7 @@ export default function PreferencesForm({
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="flex-1 border border-border text-text text-sm rounded-lg py-2.5 hover:border-gold/40 transition-colors"
+              className="flex-1 border border-border text-text text-sm rounded-lg py-2.5 hover:border-gold/40 transition-colors cursor-pointer"
             >
               Back
             </button>
@@ -167,7 +167,7 @@ export default function PreferencesForm({
               disabled={isSubmitting}
               className="flex-1 bg-gold text-ink font-semibold text-sm rounded-lg py-2.5
                          hover:bg-gold/90 active:scale-[0.99] transition-all
-                         disabled:opacity-50 disabled:cursor-not-allowed"
+                         disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {isSubmitting ? "Saving..." : submitLabel}
             </button>
@@ -259,7 +259,7 @@ function SubmitButton({ onClick, isSubmitting, label }) {
       disabled={isSubmitting}
       className="w-full bg-gold text-ink font-semibold text-sm rounded-lg py-2.5
                  hover:bg-gold/90 active:scale-[0.99] transition-all
-                 disabled:opacity-50 disabled:cursor-not-allowed"
+                 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
     >
       {isSubmitting ? "Saving..." : label}
     </button>
