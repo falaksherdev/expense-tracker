@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyEmail from "./pages/VerifyEmail";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 function App() {
   const { loading } = useAuth();
@@ -60,6 +61,7 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/verify-email/:token" element={<VerifyEmail />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path="*" element={<Login />} />
     </Routes>
   );

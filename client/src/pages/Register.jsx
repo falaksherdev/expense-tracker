@@ -156,6 +156,13 @@ export default function Register() {
                 ? "Creating account..."
                 : "Create account"}
           </button>
+          <p className="text-dim text-xs text-center mt-4">
+            By creating an account you agree to our{" "}
+            <Link to="/privacy" className="text-gold hover:underline">
+              privacy policy
+            </Link>
+            .
+          </p>
 
           <p className="text-center text-dim text-xs sm:text-sm mt-5 sm:mt-6">
             Already have an account?{" "}

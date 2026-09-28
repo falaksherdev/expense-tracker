@@ -395,7 +395,7 @@ const deleteAccount = async (req, res) => {
     const userId = req.user._id;
     await Transaction.deleteMany({ userId });
     await Category.deleteMany({ userId });
-
+    await Feedback.deleteMany({ userId });
     await User.findByIdAndDelete(userId);
 
     res.cookie("token", "", {
