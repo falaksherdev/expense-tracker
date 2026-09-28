@@ -5,7 +5,17 @@ export default function LandingFooter() {
   return (
     <footer className="border-t border-border py-6 sm:py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-3 text-dim text-xs text-center">
-        <div>{webName} — built for real financial habits</div>
+        <div className="flex items-center gap-2">
+          {" "}
+          <Link to="/" className=" h-10  overflow-hidden">
+            <img
+              src="mobile_logo.png"
+              alt="MoneyMove"
+              className=" h-full object-contain object-left"
+            />
+          </Link>{" "}
+          — built for real financial habits
+        </div>
         <div className="flex items-center gap-4">
           <Link to="/privacy" className="hover:text-text transition-colors">
             Privacy policy
