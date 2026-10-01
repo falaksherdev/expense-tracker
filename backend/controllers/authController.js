@@ -12,29 +12,16 @@ const generateToken = (userId) => {
   });
 };
 
-// const sendTokenCookie = (res, token) => {
-//   const isProduction = process.env.NODE_ENV === "production";
-
-//   res.cookie("token", token, {
-//     httpOnly: true,
-//     secure: isProduction,
-//     sameSite: isProduction ? "none" : "lax",
-//     maxAge: 7 * 24 * 60 * 60 * 1000,
-//   });
-// };
 const sendTokenCookie = (res, token) => {
   const isProduction = process.env.NODE_ENV === "production";
 
   res.cookie("token", token, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "none",
-    // sameSite: "lax",
+    sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
-const PASSWORD_REGEX =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=])[A-Za-z\d@$!%*?&#^()_\-+=]{8,}$/;
 
 function validatePassword(password) {
   if (!password || password.length < 8) {
@@ -100,7 +87,6 @@ const registerUser = async (req, res) => {
 
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
-    console.log("REGISTER: token cookie was set");
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -133,8 +119,6 @@ const loginUser = async (req, res) => {
     }
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
-    console.log("LOGIN: token cookie was set");
-    console.log("SET-COOKIE PRESENT:", !!res.getHeader("Set-Cookie"));
     res.status(200).json({
       _id: user._id,
       name: user.name,
