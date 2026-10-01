@@ -134,6 +134,7 @@ const loginUser = async (req, res) => {
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
     console.log("LOGIN: token cookie was set");
+    console.log("SET-COOKIE PRESENT:", !!res.getHeader("Set-Cookie"));
     res.status(200).json({
       _id: user._id,
       name: user.name,

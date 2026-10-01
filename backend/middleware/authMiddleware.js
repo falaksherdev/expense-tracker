@@ -27,7 +27,9 @@ const protect = async (req, res, next) => {
   try {
     console.log("COOKIES:", req.cookies);
     console.log("TOKEN EXISTS:", !!req.cookies?.token);
-
+    console.log("COOKIE HEADER PRESENT:", !!req.headers.cookie);
+    console.log("ORIGIN:", req.headers.origin);
+    console.log("USER AGENT:", req.headers["user-agent"]);
     const token = req.cookies?.token;
 
     if (!token) {
