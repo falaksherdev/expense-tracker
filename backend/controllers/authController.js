@@ -100,6 +100,7 @@ const registerUser = async (req, res) => {
 
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
+    console.log("REGISTER: token cookie was set");
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -132,6 +133,7 @@ const loginUser = async (req, res) => {
     }
     const token = generateToken(user._id);
     sendTokenCookie(res, token);
+    console.log("LOGIN: token cookie was set");
     res.status(200).json({
       _id: user._id,
       name: user.name,
