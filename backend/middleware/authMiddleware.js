@@ -20,12 +20,15 @@
 
 // module.exports = protect;
 
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
 const protect = async (req, res, next) => {
   try {
     console.log("COOKIES:", req.cookies);
-    console.log("TOKEN EXISTS:", !!req.cookies.token);
+    console.log("TOKEN EXISTS:", !!req.cookies?.token);
 
-    const token = req.cookies.token;
+    const token = req.cookies?.token;
 
     if (!token) {
       return res.status(401).json({
@@ -46,3 +49,5 @@ const protect = async (req, res, next) => {
     });
   }
 };
+
+module.exports = protect;
