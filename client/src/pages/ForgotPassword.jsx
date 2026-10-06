@@ -28,6 +28,15 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
+        <div className="flex items-center justify-center mb-2">
+          <div className="h-10 w-auto overflow-hidden">
+            <img
+              src="/logo.png"
+              alt="MoneyMov"
+              className="h-full w-auto object-contain"
+            />
+          </div>
+        </div>
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Reset your password

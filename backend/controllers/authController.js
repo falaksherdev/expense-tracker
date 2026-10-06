@@ -18,7 +18,8 @@ const sendTokenCookie = (res, token) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "lax",
+    sameSite: "none",
+    // sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 };
@@ -226,26 +227,22 @@ const forgotPassword = async (req, res) => {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; background-color:#171A24; border:1px solid #242838; border-radius:16px; overflow:hidden;">
 
           <!-- Header -->
-          <tr>
-            <td style="padding:32px 32px 0 32px; text-align:center;">
-              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 8px auto;">
-                <tr>
-                  <td style="vertical-align:middle; padding-right:6px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D4A94B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;">
-                      <path d="M21 12V7H5a2 2 0 010-4h14v4" />
-                      <path d="M3 5v14a2 2 0 002 2h16v-5" />
-                      <path d="M18 12a2 2 0 000 4h4v-4h-4z" />
-                    </svg>
-                  </td>
-                  <td style="vertical-align:middle;">
-                    <span style="color:#75798A; font-size:12px; letter-spacing:0.05em; text-transform:uppercase;">
-                     MoneyMov
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+         <tr>
+  <td style="padding:32px 32px 0 32px; text-align:center;">
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 8px auto;">
+      <tr>
+        <td style="vertical-align:middle;">
+          <img
+            src="https://moneymov.netlify.app/logo.png"
+            alt="MoneyMov"
+            width="120"
+            style="display:block; width:120px; height:auto; max-width:120px; border:0;"
+          />
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
 
           <!-- Body -->
           <tr>
@@ -423,51 +420,124 @@ const sendVerificationEmail = async (user) => {
   const emailHtml = `
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"></head>
-<body style="margin:0; padding:0; background-color:#12141C; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#12141C; padding:40px 16px;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background-color:#12141C; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;">
+
+  <table
+    role="presentation"
+    width="100%"
+    cellpadding="0"
+    cellspacing="0"
+    style="background-color:#12141C; padding:40px 16px;"
+  >
     <tr>
       <td align="center">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; background-color:#171A24; border:1px solid #242838; border-radius:16px; overflow:hidden;">
+
+        <table
+          role="presentation"
+          width="100%"
+          cellpadding="0"
+          cellspacing="0"
+          style="max-width:480px; background-color:#171A24; border:1px solid #242838; border-radius:16px; overflow:hidden;"
+        >
+
+          <!-- Header -->
           <tr>
             <td style="padding:32px 32px 0 32px; text-align:center;">
-              <span style="font-size:14px;">💰</span>
-              <span style="color:#75798A; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; margin-left:6px;">MoneyMov</span>
+              <img
+                src="https://moneymov.netlify.app/logo.png"
+                alt="MoneyMov"
+                width="120"
+                style="display:block; width:120px; height:auto; max-width:120px; margin:0 auto 8px auto; border:0;"
+              />
             </td>
           </tr>
+
+          <!-- Body -->
           <tr>
             <td style="padding:16px 32px 32px 32px;">
-              <h1 style="color:#EDEDED; font-size:22px; font-weight:600; margin:0 0 16px 0; text-align:center;">Verify your email</h1>
-              <p style="color:#C6C9D4; font-size:14px; line-height:1.6; margin:0 0 8px 0;">Hi ${user.name},</p>
-              <p style="color:#C6C9D4; font-size:14px; line-height:1.6; margin:0 0 28px 0;">
-                Welcome! Please confirm your email address to get the most out of your account. This link expires in <strong style="color:#EDEDED;">24 hours</strong>.
+
+              <h1
+                style="color:#EDEDED; font-size:22px; font-weight:600; margin:0 0 16px 0; text-align:center;"
+              >
+                Verify your email
+              </h1>
+
+              <p
+                style="color:#C6C9D4; font-size:14px; line-height:1.6; margin:0 0 8px 0;"
+              >
+                Hi ${user.name},
               </p>
-              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 28px auto;">
+
+              <p
+                style="color:#C6C9D4; font-size:14px; line-height:1.6; margin:0 0 28px 0;"
+              >
+                Welcome! Please confirm your email address to get the most out of your account.
+                This link expires in
+                <strong style="color:#EDEDED;">24 hours</strong>.
+              </p>
+
+              <!-- Button -->
+              <table
+                role="presentation"
+                cellpadding="0"
+                cellspacing="0"
+                style="margin:0 auto 28px auto;"
+              >
                 <tr>
                   <td style="border-radius:10px; background-color:#D4A94B;">
-                    <a href="${verifyUrl}" target="_blank" style="display:inline-block; padding:13px 32px; color:#12141C; font-size:14px; font-weight:600; text-decoration:none; border-radius:10px;">
+                    <a
+                      href="${verifyUrl}"
+                      target="_blank"
+                      style="display:inline-block; padding:13px 32px; color:#12141C; font-size:14px; font-weight:600; text-decoration:none; border-radius:10px;"
+                    >
                       Verify Email
                     </a>
                   </td>
                 </tr>
               </table>
-              <p style="color:#75798A; font-size:12px; line-height:1.6; margin:0 0 4px 0;">Or copy and paste this link into your browser:</p>
-              <p style="color:#7C9CBF; font-size:12px; line-height:1.6; word-break:break-all; margin:0;">${verifyUrl}</p>
+
+              <p
+                style="color:#75798A; font-size:12px; line-height:1.6; margin:0 0 4px 0;"
+              >
+                Or copy and paste this link into your browser:
+              </p>
+
+              <p
+                style="color:#7C9CBF; font-size:12px; line-height:1.6; word-break:break-all; margin:0;"
+              >
+                ${verifyUrl}
+              </p>
+
             </td>
           </tr>
+
+          <!-- Footer -->
           <tr>
-            <td style="padding:20px 32px; background-color:#12141C; text-align:center;">
-              <p style="color:#565A6B; font-size:11px; margin:0;">&copy; ${new Date().getFullYear()} MoneyMov</p>
+            <td
+              style="padding:20px 32px; background-color:#12141C; text-align:center;"
+            >
+              <p
+                style="color:#565A6B; font-size:11px; margin:0;"
+              >
+                &copy; ${new Date().getFullYear()} MoneyMov
+              </p>
             </td>
           </tr>
+
         </table>
+
       </td>
     </tr>
   </table>
+
 </body>
 </html>
 `;
-
   await sendEmail({
     to: user.email,
     subject: "Verify your email address",

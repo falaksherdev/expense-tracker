@@ -1,9 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import Logo from "./Logo";
 import FeedbackModal from "./FeedbackModal";
-import { webName } from "../constants/variables";
 
 const NAV_ITEMS = [
   {
@@ -92,9 +90,12 @@ export default function Sidebar() {
   return (
     <>
       <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-20">
-        <div className="flex items-center gap-2">
-          <Logo size={18} className="text-gold" />
-          <div className="font-serif text-text">{webName}</div>
+        <div className="h-10 w-auto overflow-hidden flex items-center">
+          <img
+            src="/logo.png"
+            alt="MoneyMov"
+            className="h-full w-auto object-contain"
+          />
         </div>
         <button
           onClick={() => setMobileOpen((o) => !o)}
@@ -134,21 +135,32 @@ export default function Sidebar() {
 
       <aside
         className={`
-          fixed md:sticky top-0 md:top-0 left-0 h-screen w-64 bg-surface border-r border-border
-          flex flex-col p-4 z-40 transition-transform duration-200
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-        `}
+    fixed md:sticky top-0 md:top-0 left-0 h-screen w-64 bg-surface border-r border-border
+    flex flex-col p-4 z-40 transition-transform duration-200
+    ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+  `}
       >
         <div className="mb-6 px-2">
-          <div className="flex items-center gap-2 text-muted text-xs tracking-wide mb-3">
-            <Logo size={18} className="text-gold" />
-            <span>{webName}</span>
+          <div
+            className="inline-flex h-10 max-w-[150px] items-center overflow-hidden mb-5"
+            onClick={() => setMobileOpen(false)}
+          >
+            <img
+              src="/logo.png"
+              alt="MoneyMov"
+              className="h-full w-auto object-contain object-left"
+            />
           </div>
-          <div className="font-serif text-lg text-text mt-0.5">
+          <div className="border-t border-border mb-4" />
+
+          <div className="font-serif text-lg text-text leading-tight">
             Hi, {user?.name?.split(" ")[0]}
           </div>
-        </div>
 
+          <div className="text-xs text-dim mt-1 truncate" title={user?.email}>
+            {user?.email}
+          </div>
+        </div>
         <nav className="flex-1 space-y-1">
           {NAV_ITEMS.map((item) => (
             <NavLink
@@ -162,48 +174,64 @@ export default function Sidebar() {
             </NavLink>
           ))}
         </nav>
-        {/* Divider */}
-        <div className="border-t border-border my-2" />
 
-        {/* Feedback button */}
-        <button
-          onClick={() => setShowFeedback(true)}
-          className="w-full flex items-center gap-3 text-sm text-muted hover:text-gold hover:bg-border/50 px-3 py-2 rounded-lg transition-colors mb-2 cursor-pointer"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div className="pt-3 border-t border-border">
+          <button
+            onClick={() => setShowFeedback(true)}
+            className="
+        w-full flex items-center gap-3
+        text-sm text-muted
+        hover:text-gold hover:bg-border/40
+        px-3 py-2.5 rounded-lg
+        transition-colors mb-2 cursor-pointer
+      "
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
-          <span>Send feedback</span>
-        </button>
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 text-sm text-dim bg-surface hover:bg-rust/10 hover:text-rust border border-border hover:border-rust/30 rounded-md px-3 py-2 transition-colors cursor-pointer"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+            <svg
+              className="w-4 h-4 shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+
+            <span>Send feedback</span>
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="
+        w-full flex items-center gap-3
+        text-sm text-dim
+        bg-surface
+        hover:bg-rust/10 hover:text-rust
+        border border-border hover:border-rust/30
+        rounded-lg px-3 py-2.5
+        transition-colors cursor-pointer
+      "
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
-          <span>Log out</span>
-        </button>
+            <svg
+              className="w-4 h-4 shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+
+            <span>Log out</span>
+          </button>
+        </div>
       </aside>
       {showFeedback && <FeedbackModal onClose={() => setShowFeedback(false)} />}
     </>

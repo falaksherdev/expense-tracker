@@ -1,7 +1,6 @@
 const Feedback = require("../models/Feedback");
 const sendEmail = require("../utils/sendEmail");
 
-// @route   POST /api/feedback
 const submitFeedback = async (req, res) => {
   try {
     const { message } = req.body;
@@ -12,24 +11,46 @@ const submitFeedback = async (req, res) => {
         .json({ message: "Please write a bit more detail" });
     }
 
-    // Pehle database mein save karo — ye hamesha ho, chahe email fail ho jaye
     const feedback = await Feedback.create({
       userId: req.user._id,
       userEmail: req.user.email,
       message: message.trim(),
     });
 
-    // Phir email notification bhejne ki koshish karo — fail ho to bhi feedback save rahega
     try {
       await sendEmail({
-        to: process.env.ADMIN_EMAIL, // aapki personal email
+        to: process.env.ADMIN_EMAIL,
         subject: "New feedback received",
         html: `
-          <p><strong>From:</strong> ${req.user.name} (${req.user.email})</p>
-          <p><strong>Message:</strong></p>
-          <p>${message.trim()}</p>
-          <p style="color:#999; font-size:12px;">Sent on ${new Date().toLocaleString()}</p>
-        `,
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
+        <h2>New Feedback</h2>
+
+        <p>
+          <strong>From:</strong> ${req.user.name}
+        </p>
+
+        <p>
+          <strong>Email:</strong> ${req.user.email}
+        </p>
+
+        <p>
+          <strong>Message:</strong>
+        </p>
+
+        <div style="
+          background:#f5f5f5;
+          padding:12px 16px;
+          border-radius:8px;
+          white-space:pre-wrap;
+        ">
+          ${message.trim()}
+        </div>
+
+        <p style="color:#888; font-size:12px; margin-top:20px;">
+          Sent on ${new Date().toLocaleString()}
+        </p>
+      </div>
+    `,
       });
     } catch (emailError) {
       console.error("Feedback email notification failed:", emailError.message);

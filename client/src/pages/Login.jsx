@@ -40,15 +40,19 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-ink flex items-center justify-center px-4 py-8 relative overflow-hidden">
-      {/* Subtle background accent glow */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-slate/5 rounded-full blur-3xl" />
 
       <div className="w-full max-w-md relative">
         <div className="text-center mb-6 sm:mb-8">
-          <div className="flex items-center justify-center gap-2 text-muted text-xs sm:text-sm tracking-wide mb-2">
-            <Logo size={20} className="text-gold" />
-            <span>{webName}</span>
+          <div className="flex items-center justify-center mb-2">
+            <div className="h-10 w-auto overflow-hidden">
+              <img
+                src="/logo.png"
+                alt="MoneyMov"
+                className="h-full w-auto object-contain"
+              />
+            </div>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Welcome back
@@ -108,7 +112,6 @@ export default function Login() {
                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-dim hover:text-gold transition-colors"
               >
                 {showPassword ? (
-                  // Eye-off icon (password visible hai)
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -124,7 +127,6 @@ export default function Login() {
                     <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 ) : (
-                  // Eye icon (password hidden hai)
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"

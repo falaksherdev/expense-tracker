@@ -67,9 +67,14 @@ export default function Register() {
 
       <div className="w-full max-w-md relative">
         <div className="text-center mb-6 sm:mb-8">
-          <div className="flex items-center justify-center gap-2 text-muted text-xs sm:text-sm tracking-wide mb-2">
-            <Logo size={20} className="text-gold" />
-            <span>{webName}</span>
+          <div className="flex items-center justify-center mb-2">
+            <div className="h-10 w-auto overflow-hidden">
+              <img
+                src="/logo.png"
+                alt="MoneyMov"
+                className="h-full w-auto object-contain"
+              />
+            </div>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl text-text font-semibold">
             Create your account
@@ -146,7 +151,6 @@ export default function Register() {
                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-dim hover:text-gold transition-colors"
               >
                 {showPassword ? (
-                  // Eye-off icon (password visible hai)
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -162,7 +166,6 @@ export default function Register() {
                     <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 ) : (
-                  // Eye icon (password hidden hai)
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
