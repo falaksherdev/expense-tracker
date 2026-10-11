@@ -75,3 +75,27 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #242838 #12141c;
 }
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* Sirf iPhone/iPad (WebKit) par chalta hai. Android aur desktop par asar nahi. */
+@supports (-webkit-touch-callout: none) {
+  /* 16px se chhote input par Safari khud zoom kar deta hai, aur wo zoom wapas nahi hota */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Left-right scroll aur page ka thoda zoomed dikhna rokta hai.
+     clip scroll container nahi banata, isliye sticky bar nahi toot'ti */
+  html,
+  body {
+    overflow-x: clip;
+  }
+}

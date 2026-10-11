@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axiosInstance from "../api/axiosInstance";
+import { useLockBodyScroll } from "../hooks/useLockBodyScroll";
 
 export default function FeedbackModal({ onClose }) {
+  useLockBodyScroll();
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

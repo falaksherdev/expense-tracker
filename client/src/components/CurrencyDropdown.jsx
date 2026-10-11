@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { CURRENCIES } from "../constants/currencies";
+import DropdownPanel from "./DropdownPanel";
+import { isIOS } from "../utils/isIOS";
 
 export default function CurrencyDropdown({ value, onChange }) {
   const [open, setOpen] = useState(false);
@@ -7,19 +9,22 @@ export default function CurrencyDropdown({ value, onChange }) {
   const wrapperRef = useRef(null);
   const searchInputRef = useRef(null);
 
+  const close = () => {
+    setOpen(false);
+    setSearch("");
+  };
+
   useEffect(() => {
+    if (!open || isIOS) return;
     const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setOpen(false);
-        setSearch("");
-      }
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) close();
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
-    if (open) searchInputRef.current?.focus();
+    if (open && !isIOS) searchInputRef.current?.focus();
   }, [open]);
 
   const selected = CURRENCIES.find((c) => c.code === value);
@@ -32,8 +37,7 @@ export default function CurrencyDropdown({ value, onChange }) {
 
   const handleSelect = (code) => {
     onChange(code);
-    setOpen(false);
-    setSearch("");
+    close();
   };
 
   return (
@@ -49,18 +53,18 @@ export default function CurrencyDropdown({ value, onChange }) {
                     }`}
       >
         {selected ? (
-          <span className="flex items-center gap-2.5 text-text">
-            <span className="w-6 text-center text-gold font-mono">
+          <span className="flex items-center gap-2.5 text-text min-w-0">
+            <span className="w-6 text-center text-gold font-mono shrink-0">
               {selected.symbol}
             </span>
-            <span>{selected.label}</span>
-            <span className="text-dim text-xs">({selected.code})</span>
+            <span className="truncate">{selected.label}</span>
+            <span className="text-dim text-xs shrink-0">({selected.code})</span>
           </span>
         ) : (
           <span className="text-dim">Select a currency</span>
         )}
         <svg
-          className={`w-4 h-4 text-muted transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-4 h-4 text-muted transition-transform shrink-0 ${open ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -75,11 +79,8 @@ export default function CurrencyDropdown({ value, onChange }) {
       </button>
 
       {open && (
-        <div
-          className="absolute top-full left-0 mt-2 w-full z-30 bg-surface border border-border rounded-xl
-                         shadow-2xl shadow-black/40 overflow-hidden animate-[fadeIn_0.12s_ease-out]"
-        >
-          <div className="p-2 border-b border-border">
+        <DropdownPanel onClose={close}>
+          <div className="p-2 border-b border-border shrink-0">
             <input
               ref={searchInputRef}
               type="text"
@@ -91,7 +92,11 @@ export default function CurrencyDropdown({ value, onChange }) {
             />
           </div>
 
-          <div className="max-h-60 overflow-y-auto py-1">
+          <div
+            className={`overflow-y-auto overscroll-contain py-1 ${
+              isIOS ? "flex-1 min-h-0" : "max-h-60"
+            }`}
+          >
             {filtered.length === 0 ? (
               <div className="px-4 py-3 text-dim text-sm text-center">
                 No matches
@@ -102,19 +107,22 @@ export default function CurrencyDropdown({ value, onChange }) {
                   key={c.code}
                   type="button"
                   onClick={() => handleSelect(c.code)}
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center justify-between
+                  className={`w-full text-left px-4 text-sm transition-colors flex items-center justify-between
+                              ${isIOS ? "py-3" : "py-2.5"}
                               ${value === c.code ? "text-gold bg-gold/5" : "text-text hover:bg-ink"}`}
                 >
-                  <span className="flex items-center gap-2.5">
-                    <span className="w-6 text-center font-mono">
+                  <span className="flex items-center gap-2.5 min-w-0">
+                    <span className="w-6 text-center font-mono shrink-0">
                       {c.symbol}
                     </span>
-                    <span>{c.label}</span>
-                    <span className="text-dim text-xs">({c.code})</span>
+                    <span className="truncate">{c.label}</span>
+                    <span className="text-dim text-xs shrink-0">
+                      ({c.code})
+                    </span>
                   </span>
                   {value === c.code && (
                     <svg
-                      className="w-4 h-4"
+                      className="w-4 h-4 shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -131,7 +139,7 @@ export default function CurrencyDropdown({ value, onChange }) {
               ))
             )}
           </div>
-        </div>
+        </DropdownPanel>
       )}
     </div>
   );

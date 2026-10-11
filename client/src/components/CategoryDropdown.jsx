@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import DropdownPanel from "./DropdownPanel";
+import { isIOS } from "../utils/isIOS";
 
 export default function CategoryDropdown({
   options,
@@ -12,19 +14,25 @@ export default function CategoryDropdown({
   const wrapperRef = useRef(null);
   const searchInputRef = useRef(null);
 
+  const close = () => {
+    setOpen(false);
+    setSearch("");
+  };
+
+  // Desktop/Android par bahar click se band. iPhone par sheet ka backdrop ye kaam karta hai.
+  // iPhone par ye listener isliye nahi lagate ke option tap hone se pehle hi sheet band ho jati.
   useEffect(() => {
+    if (!open || isIOS) return;
     const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setOpen(false);
-        setSearch("");
-      }
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) close();
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [open]);
 
+  // iPhone par auto-focus nahi, warna keyboard khul kar options dhak leta hai
   useEffect(() => {
-    if (open) searchInputRef.current?.focus();
+    if (open && !isIOS) searchInputRef.current?.focus();
   }, [open]);
 
   const filtered = options.filter((opt) =>
@@ -33,8 +41,7 @@ export default function CategoryDropdown({
 
   const handleSelect = (opt) => {
     onChange(opt);
-    setOpen(false);
-    setSearch("");
+    close();
   };
 
   return (
@@ -68,11 +75,8 @@ export default function CategoryDropdown({
       </button>
 
       {open && (
-        <div
-          className="absolute top-full left-0 mt-2 w-full z-30 bg-surface border border-border rounded-xl
-                         shadow-2xl shadow-black/40 overflow-hidden animate-[fadeIn_0.12s_ease-out]"
-        >
-          <div className="p-2 border-b border-border">
+        <DropdownPanel onClose={close}>
+          <div className="p-2 border-b border-border shrink-0">
             <input
               ref={searchInputRef}
               type="text"
@@ -84,7 +88,11 @@ export default function CategoryDropdown({
             />
           </div>
 
-          <div className="max-h-52 overflow-y-auto py-1">
+          <div
+            className={`overflow-y-auto overscroll-contain py-1 ${
+              isIOS ? "flex-1 min-h-0" : "max-h-52"
+            }`}
+          >
             {filtered.length === 0 ? (
               <div className="px-4 py-3 text-dim text-sm text-center">
                 No matches
@@ -95,7 +103,8 @@ export default function CategoryDropdown({
                   key={opt}
                   type="button"
                   onClick={() => handleSelect(opt)}
-                  className={`w-full text-left px-4 py-2 text-sm transition-colors flex items-center justify-between
+                  className={`w-full text-left px-4 text-sm transition-colors flex items-center justify-between
+                              ${isIOS ? "py-3" : "py-2"}
                               ${value === opt ? "text-gold bg-gold/5" : "text-text hover:bg-ink"}`}
                 >
                   {opt}
@@ -124,11 +133,10 @@ export default function CategoryDropdown({
               type="button"
               onClick={() => {
                 onAddNew();
-                setOpen(false);
-                setSearch("");
+                close();
               }}
-              className="w-full text-left px-4 py-2.5 text-sm text-gold border-t border-border
-                         hover:bg-gold/5 transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="shrink-0 w-full text-left px-4 py-2.5 text-sm text-gold border-t border-border
+                         hover:bg-gold/5 transition-colors flex items-center gap-1.5"
             >
               <svg
                 className="w-4 h-4"
@@ -146,7 +154,7 @@ export default function CategoryDropdown({
               Add custom category
             </button>
           )}
-        </div>
+        </DropdownPanel>
       )}
     </div>
   );

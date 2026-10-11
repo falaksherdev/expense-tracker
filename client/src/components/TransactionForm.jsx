@@ -5,12 +5,14 @@ import { DEFAULT_CATEGORIES, TYPE_LABELS } from "../constants/categories";
 import Calendar from "./Calendar";
 import CategoryDropdown from "./CategoryDropdown";
 import { useCurrency } from "../hooks/useCurrency";
+import { useLockBodyScroll } from "../hooks/useLockBodyScroll";
 
 export default function TransactionForm({
   onClose,
   onSuccess,
   existingTransaction,
 }) {
+  useLockBodyScroll();
   const { symbol } = useCurrency();
 
   const { user } = useAuth();
