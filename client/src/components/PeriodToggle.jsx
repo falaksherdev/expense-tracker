@@ -60,11 +60,13 @@ export default function PeriodToggle({
         <button
           key={p.key}
           onClick={() => handlePeriodClick(p.key)}
-          className={`text-sm pb-1.5 border-b-2 transition-colors cursor-pointer ${
-            period === p.key
-              ? "text-text border-gold"
-              : "text-muted border-transparent hover:text-text"
-          }`}
+          className={`text-sm pb-1.5 border-b-2 transition-colors cursor-pointer
+            ${p.key === "custom" ? "basis-full sm:basis-auto" : ""}
+            ${
+              period === p.key
+                ? "text-text border-gold"
+                : "text-muted border-transparent hover:text-text"
+            }`}
         >
           {p.label}
           {p.key === "custom" && period === "custom" && hasAppliedRange && (
