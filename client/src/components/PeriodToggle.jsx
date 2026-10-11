@@ -8,6 +8,8 @@ const PERIODS = [
   { key: "custom", label: "Custom" },
 ];
 
+const POPUP_WIDTH = 320; // w-80
+
 export default function PeriodToggle({
   period,
   onChange,
@@ -16,6 +18,7 @@ export default function PeriodToggle({
 }) {
   const [showPicker, setShowPicker] = useState(false);
   const [draftRange, setDraftRange] = useState(customRange);
+  const [alignLeft, setAlignLeft] = useState(false);
   const pickerRef = useRef(null);
 
   useEffect(() => {
@@ -28,10 +31,19 @@ export default function PeriodToggle({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Popup kholne se pehle: right se kholne par left kinara screen se bahar
+  // jaye to left se kholo, warna right se
+  const decideAlign = () => {
+    if (!pickerRef.current) return;
+    const rect = pickerRef.current.getBoundingClientRect();
+    setAlignLeft(rect.right - POPUP_WIDTH < 12);
+  };
+
   const handlePeriodClick = (key) => {
     onChange(key);
     if (key === "custom") {
       setDraftRange(customRange);
+      decideAlign();
       setShowPicker(true);
     } else {
       setShowPicker(false);
@@ -59,13 +71,13 @@ export default function PeriodToggle({
       {PERIODS.map((p) => (
         <button
           key={p.key}
+          type="button"
           onClick={() => handlePeriodClick(p.key)}
-          className={`text-sm pb-1.5 border-b-2 transition-colors cursor-pointer
-            ${
-              period === p.key
-                ? "text-text border-gold"
-                : "text-muted border-transparent hover:text-text"
-            }`}
+          className={`text-sm pb-1.5 border-b-2 transition-colors ${
+            period === p.key
+              ? "text-text border-gold"
+              : "text-muted border-transparent hover:text-text"
+          }`}
         >
           {p.label}
           {p.key === "custom" && period === "custom" && hasAppliedRange && (
@@ -79,21 +91,25 @@ export default function PeriodToggle({
 
       {showPicker && (
         <>
-          {/* Mobile backdrop: bahar tap karne se band, touch-none se peeche ka page nahi hilta */}
+          {/* Sirf 428px tak: peeche ka dark backdrop */}
           <div
-            className="md:hidden fixed inset-0 z-[60] bg-black/50 touch-none"
+            className="min-[429px]:hidden fixed inset-0 z-[60] bg-black/50 touch-none"
             onClick={() => setShowPicker(false)}
           />
 
-          {/* Mobile: neeche chipki sheet. Desktop: pehle jaisa dropdown popup */}
           <div
-            className="fixed left-0 right-0 bottom-0 z-[61] mx-auto w-full max-w-sm
-                 rounded-t-2xl border-t border-border bg-surface p-4
-                 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl shadow-black/50
-                 md:absolute md:left-auto md:right-0 md:bottom-auto md:top-full md:mt-3 md:mx-0
-                 md:z-20 md:w-80 md:max-w-none md:rounded-xl md:border md:pb-4 md:shadow-black/40"
+            className={`bg-surface border-border p-4
+              max-[428px]:fixed max-[428px]:inset-x-0 max-[428px]:bottom-0 max-[428px]:z-[61]
+              max-[428px]:mx-auto max-[428px]:w-full max-[428px]:max-w-sm
+              max-[428px]:rounded-t-2xl max-[428px]:border-t
+              max-[428px]:pb-[calc(1rem+env(safe-area-inset-bottom))]
+              max-[428px]:shadow-2xl max-[428px]:shadow-black/50
+              min-[429px]:absolute min-[429px]:top-full min-[429px]:mt-3 min-[429px]:z-20
+              min-[429px]:w-80 min-[429px]:rounded-xl min-[429px]:border
+              min-[429px]:shadow-2xl min-[429px]:shadow-black/40
+              ${alignLeft ? "min-[429px]:left-0" : "min-[429px]:right-0"}`}
           >
-            <div className="md:hidden flex justify-center mb-3">
+            <div className="min-[429px]:hidden flex justify-center mb-3">
               <span className="h-1 w-10 rounded-full bg-border" />
             </div>
 
@@ -131,7 +147,7 @@ export default function PeriodToggle({
                     });
                   }}
                   className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted
-                       hover:border-gold/40 hover:text-gold transition-colors"
+                             hover:border-gold/40 hover:text-gold transition-colors"
                 >
                   {preset.label}
                 </button>
@@ -143,7 +159,7 @@ export default function PeriodToggle({
               onClick={handleApply}
               disabled={!hasDraftRange}
               className="w-full bg-gold text-ink text-sm font-semibold rounded-lg py-2
-                   hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                         hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Apply
             </button>
