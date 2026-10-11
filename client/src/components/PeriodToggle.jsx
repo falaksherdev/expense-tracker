@@ -61,7 +61,6 @@ export default function PeriodToggle({
           key={p.key}
           onClick={() => handlePeriodClick(p.key)}
           className={`text-sm pb-1.5 border-b-2 transition-colors cursor-pointer
-            ${p.key === "custom" ? "basis-full sm:basis-auto" : ""}
             ${
               period === p.key
                 ? "text-text border-gold"
@@ -79,56 +78,77 @@ export default function PeriodToggle({
       ))}
 
       {showPicker && (
-        <div className="absolute top-full right-0 mt-3 z-20 bg-surface border border-border rounded-xl shadow-2xl shadow-black/40 p-4 w-80">
-          <div className="text-muted text-xs tracking-wide mb-3">
-            {!draftRange.startDate
-              ? "Select start date"
-              : !draftRange.endDate
-                ? "Select end date"
-                : "Date range selected"}
-          </div>
-
-          <Calendar
-            startDate={draftRange.startDate}
-            endDate={draftRange.endDate}
-            onSelect={setDraftRange}
-            mode="range"
+        <>
+          {/* Mobile backdrop: bahar tap karne se band, touch-none se peeche ka page nahi hilta */}
+          <div
+            className="md:hidden fixed inset-0 z-[60] bg-black/50 touch-none"
+            onClick={() => setShowPicker(false)}
           />
 
-          <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
-            {[
-              { label: "Last 7 days", days: 7 },
-              { label: "Last 30 days", days: 30 },
-              { label: "Last 90 days", days: 90 },
-            ].map((preset) => (
-              <button
-                key={preset.label}
-                onClick={() => {
-                  const end = new Date();
-                  const start = new Date();
-                  start.setDate(end.getDate() - preset.days);
-                  setDraftRange({
-                    startDate: start.toISOString().split("T")[0],
-                    endDate: end.toISOString().split("T")[0],
-                  });
-                }}
-                className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted
-                           hover:border-gold/40 hover:text-gold transition-colors cursor-pointer"
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
-
-          <button
-            onClick={handleApply}
-            disabled={!hasDraftRange}
-            className="w-full bg-gold text-ink text-sm font-semibold rounded-lg py-2
-                       hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed  cursor-pointer"
+          {/* Mobile: neeche chipki sheet. Desktop: pehle jaisa dropdown popup */}
+          <div
+            className="fixed left-0 right-0 bottom-0 z-[61] mx-auto w-full max-w-sm
+                 rounded-t-2xl border-t border-border bg-surface p-4
+                 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-2xl shadow-black/50
+                 md:absolute md:left-auto md:right-0 md:bottom-auto md:top-full md:mt-3 md:mx-0
+                 md:z-20 md:w-80 md:max-w-none md:rounded-xl md:border md:pb-4 md:shadow-black/40"
           >
-            Apply
-          </button>
-        </div>
+            <div className="md:hidden flex justify-center mb-3">
+              <span className="h-1 w-10 rounded-full bg-border" />
+            </div>
+
+            <div className="text-muted text-xs tracking-wide mb-3">
+              {!draftRange.startDate
+                ? "Select start date"
+                : !draftRange.endDate
+                  ? "Select end date"
+                  : "Date range selected"}
+            </div>
+
+            <Calendar
+              startDate={draftRange.startDate}
+              endDate={draftRange.endDate}
+              onSelect={setDraftRange}
+              mode="range"
+            />
+
+            <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
+              {[
+                { label: "Last 7 days", days: 7 },
+                { label: "Last 30 days", days: 30 },
+                { label: "Last 90 days", days: 90 },
+              ].map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setDate(end.getDate() - preset.days);
+                    setDraftRange({
+                      startDate: start.toISOString().split("T")[0],
+                      endDate: end.toISOString().split("T")[0],
+                    });
+                  }}
+                  className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted
+                       hover:border-gold/40 hover:text-gold transition-colors"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleApply}
+              disabled={!hasDraftRange}
+              className="w-full bg-gold text-ink text-sm font-semibold rounded-lg py-2
+                   hover:bg-gold/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Apply
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
