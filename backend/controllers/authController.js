@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const Transaction = require("../models/Transaction");
 const Category = require("../models/Category");
+const Feedback = require("../models/Feedback");
 
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
