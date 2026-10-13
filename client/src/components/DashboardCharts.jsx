@@ -125,7 +125,7 @@ export default function DashboardCharts({ period, customRange }) {
                       fontSize: 12,
                     }}
                     itemStyle={{ color: "#EDEDED" }}
-                    formatter={(v) => [fmtWithSymbol(v), ""]}
+                    formatter={(value, name) => [fmtWithSymbol(value), name]}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -193,7 +193,10 @@ export default function DashboardCharts({ period, customRange }) {
                       fontSize: 12,
                     }}
                     itemStyle={{ color: "#EDEDED" }}
-                    formatter={(v) => fmtWithSymbol(v)}
+                    formatter={(value, name) => [
+                      fmtWithSymbol(value),
+                      name === "outgoing" ? "Sent out" : "Income",
+                    ]}
                   />
                   <Line
                     type="monotone"

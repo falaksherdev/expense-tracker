@@ -8,7 +8,7 @@ const PERIODS = [
   { key: "custom", label: "Custom" },
 ];
 
-const POPUP_WIDTH = 320; // w-80
+const POPUP_WIDTH = 320;
 
 export default function PeriodToggle({
   period,
@@ -31,8 +31,6 @@ export default function PeriodToggle({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Popup kholne se pehle: right se kholne par left kinara screen se bahar
-  // jaye to left se kholo, warna right se
   const decideAlign = () => {
     if (!pickerRef.current) return;
     const rect = pickerRef.current.getBoundingClientRect();
@@ -91,7 +89,6 @@ export default function PeriodToggle({
 
       {showPicker && (
         <>
-          {/* Sirf 428px tak: peeche ka dark backdrop */}
           <div
             className="min-[429px]:hidden fixed inset-0 z-[60] bg-black/50 touch-none"
             onClick={() => setShowPicker(false)}
