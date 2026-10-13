@@ -193,6 +193,7 @@ export default function DashboardCharts({ period, customRange }) {
                       fontSize: 12,
                     }}
                     itemStyle={{ color: "#EDEDED" }}
+                    labelStyle={{ color: "#D4A94B" }}
                     formatter={(value, name) => [
                       fmtWithSymbol(value),
                       name === "outgoing" ? "Sent out" : "Income",
