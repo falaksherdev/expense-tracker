@@ -8,7 +8,7 @@ A full-stack money tracker that understands how people actually handle money. It
 
 - **Four transaction types:** income, expense, investment (including committee/kameti) and lending, each treated correctly in your balance
 - **Dashboard:** balance, income, sent out (with breakdown), savings rate, a category pie chart and an income vs sent out trend
-- **Periods:** weekly, monthly, yearly or a custom date range
+- **Periods:** daily, weekly, monthly, yearly or a custom date range
 - **Custom categories** on top of sensible defaults
 - **Multi-currency** (PKR, USD, EUR, GBP, INR, AED, SAR), with region-aware features such as committee tracking for PKR and INR
 - **Personalised setup:** a short onboarding and Settings page to switch committee, lending and investments on or off
@@ -18,13 +18,13 @@ A full-stack money tracker that understands how people actually handle money. It
 
 ## Tech stack
 
-| Layer | Tools |
-|---|---|
+| Layer    | Tools                                                    |
+| -------- | -------------------------------------------------------- |
 | Frontend | React, Vite, Tailwind CSS, React Router, Recharts, Axios |
-| Backend | Node.js, Express, Mongoose |
-| Database | MongoDB Atlas |
-| Email | Nodemailer with Brevo SMTP |
-| Hosting | Netlify (frontend), Render (backend) |
+| Backend  | Node.js, Express, Mongoose                               |
+| Database | MongoDB Atlas                                            |
+| Email    | Nodemailer with Brevo SMTP                               |
+| Hosting  | Netlify (frontend), Render (backend)                     |
 
 ## Security
 

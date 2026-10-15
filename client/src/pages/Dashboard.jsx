@@ -11,6 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCurrency } from "../hooks/useCurrency";
 import { Link } from "react-router-dom";
 import VerifyEmailBanner from "../components/VerifyEmailBanner";
+import { todayLocal } from "../utils/dates";
 
 export default function Dashboard() {
   const { fmtWithSymbol } = useCurrency();
@@ -39,6 +40,11 @@ export default function Dashboard() {
       if (period === "custom") {
         params.startDate = customRange.startDate;
         params.endDate = customRange.endDate;
+      }
+      if (period === "daily") {
+        const today = todayLocal();
+        params.startDate = today;
+        params.endDate = today;
       }
       const { data } = await axiosInstance.get("/transactions/summary", {
         params,

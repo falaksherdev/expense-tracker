@@ -14,7 +14,7 @@ const FEATURES = [
   {
     title: "Period analytics",
     description:
-      "Weekly, monthly, yearly, or a custom range — your data, your timeframe.",
+      "Daily, Weekly, monthly, yearly, or a custom range — your data, your timeframe.",
   },
   {
     title: "Personalized setup",

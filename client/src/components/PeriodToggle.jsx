@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import Calendar from "./Calendar";
 
 const PERIODS = [
+  { key: "daily", label: "Daily" },
+
   { key: "weekly", label: "Weekly" },
   { key: "monthly", label: "Monthly" },
   { key: "yearly", label: "Yearly" },
@@ -65,7 +67,10 @@ export default function PeriodToggle({
   };
 
   return (
-    <div className="relative flex flex-wrap items-center gap-5" ref={pickerRef}>
+    <div
+      className="relative flex flex-wrap items-center gap-x-4 sm:gap-x-5 gap-y-2"
+      ref={pickerRef}
+    >
       {PERIODS.map((p) => (
         <button
           key={p.key}

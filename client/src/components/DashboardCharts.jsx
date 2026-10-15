@@ -14,6 +14,7 @@ import {
 import axiosInstance from "../api/axiosInstance";
 import Loader from "./Loader";
 import { useCurrency } from "../hooks/useCurrency";
+import { todayLocal } from "../utils/dates";
 
 const PIE_COLORS = [
   "#D4A94B",
@@ -43,6 +44,11 @@ export default function DashboardCharts({ period, customRange }) {
         if (period === "custom") {
           params.startDate = customRange.startDate;
           params.endDate = customRange.endDate;
+        }
+        if (period === "daily") {
+          const today = todayLocal();
+          params.startDate = today;
+          params.endDate = today;
         }
         const { data } = await axiosInstance.get("/transactions/chart-data", {
           params,

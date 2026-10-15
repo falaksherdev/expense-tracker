@@ -149,6 +149,16 @@ function getDateRange(period, customStart, customEnd) {
     end = new Date();
 
   switch (period) {
+    case "daily": {
+      if (customStart) {
+        start = new Date(customStart);
+        end = new Date(customEnd || customStart);
+      } else {
+        start = new Date(now);
+        start.setHours(0, 0, 0, 0);
+      }
+      break;
+    }
     case "weekly": {
       const day = now.getDay();
 
@@ -200,18 +210,18 @@ const getChartData = async (req, res) => {
       }),
     );
 
-    const trend = await getTrendData(req.user._id, period);
-
+    const trend = await getTrendData(req.user._id, period, endDate);
     res.status(200).json({ categoryBreakdown, trend });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-async function getTrendData(userId, period) {
-  const now = new Date();
+async function getTrendData(userId, period, anchorDate) {
+  const now =
+    period === "daily" && anchorDate ? new Date(anchorDate) : new Date();
   const buckets = [];
 
-  if (period === "weekly") {
+  if (period === "weekly" || period === "daily") {
     for (let i = 6; i >= 0; i--) {
       const day = new Date(now);
       day.setDate(now.getDate() - i);
